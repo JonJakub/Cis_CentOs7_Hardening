@@ -197,7 +197,7 @@
       state: stopped
       enabled: no
   when:
-      - xinetd_service_status.stdout == "loaded" and not rhel7cis_xinetd_required
+      - xinetd_service_status.stdout == not rhel7cis_xinetd_required
       - rhel7cis_rule_2_1_7|bool
   tags:
       - level1
