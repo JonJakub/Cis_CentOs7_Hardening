@@ -197,7 +197,7 @@
       state: stopped
       enabled: no
   when:
-      - xinetd_service_status.stdout == not rhel7cis_xinetd_required
+      - xinetd_service_status.stdout == "loaded"
       - rhel7cis_rule_2_1_7|bool
   tags:
       - level1
@@ -234,7 +234,7 @@
       state: stopped
       enabled: no
   when:
-      - rhel7cis_time_synchronization == "chrony" and ntpd_service_status.stdout == "loaded"
+      - rhel7cis_time_synchronization == "chrony"
       - rhel7cis_rule_2_2_1_1|bool
   tags:
       - level1
@@ -248,7 +248,7 @@
       enabled: no
   ignore_errors: yes
   when:
-      - rhel7cis_time_synchronization == "ntp" and chronyd_service_status.stdout == "loaded"
+      - rhel7cis_time_synchronization == "ntp"
       - rhel7cis_rule_2_2_1_1|bool
   tags:
       - level1
