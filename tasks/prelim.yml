@@ -45,10 +45,10 @@
   changed_when: no
   check_mode: no
 
-#- name: "PRELIM | Section 4.1 | Configure System Accounting (auditd)"
-#  yum:
-#      name: audit
-#      state: present
+- name: "PRELIM | Section 4.1 | Configure System Accounting (auditd)"
+  yum:
+      name: audit
+      state: present
 
 - name: "PRELIM | Section 5.1 | Configure cron"
   yum:
