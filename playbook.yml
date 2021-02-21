@@ -1,0 +1,12 @@
+- name: Hardening
+  hosts: localhost
+  connection: local 
+#  hosts: all
+  gather_facts: no
+  become: yes
+
+  tasks:
+
+  - name: 'test'
+    import_tasks: tasks/main.yml
+
