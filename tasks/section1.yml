@@ -17,9 +17,9 @@
   modprobe:
       name: cramfs
       state: absent
-  when:
-      - rhel7cis_rule_1_1_1_1|bool
-      - ansible_connection != 'docker'
+#  when:
+#      - rhel7cis_rule_1_1_1_1|bool
+#      - ansible_connection != 'docker'
   tags:
       - level1
       - scored
