@@ -1,5 +1,8 @@
 ---
 # tasks file for RHEL7-CIS
+- name: 'Ad_promene'
+  include_vars: "main.yml"
+
 - include: prelim.yml
   become: yes
   tags:
@@ -8,29 +11,39 @@
 
 - include: section1.yml
   become: yes
-  when: rhel7cis_section1|bool
+  when: rhel7cis_section1
   tags:
       - rhel7cis_section1
 
 - include: section2.yml
   become: yes
   when: rhel7cis_section2|bool
+  tags:
+      - rhel7cis_section2
 
 - include: section3.yml
   become: yes
   when: rhel7cis_section3|bool
+  tags:
+      - rhel7cis_section3
 
 - include: section4.yml
   become: yes
   when: rhel7cis_section4|bool
+  tags:
+      - rhel7cis_section4
 
 - include: section5.yml
   become: yes
   when: rhel7cis_section5|bool
+  tags:
+      - rhel7cis_section5
 
 - include: section6.yml
   become: yes
   when: rhel7cis_section6|bool
+  tags:
+      - rhel7cis_section6
 
 - include: post.yml
   become: yes
