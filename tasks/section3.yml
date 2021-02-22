@@ -33,11 +33,7 @@
       ignoreerrors: yes
   with_items:
       - { name: net.ipv4.conf.all.accept_source_route, value: 0 }
-      - { name: net.ipv4.conf.default.accept_source_route, value: 0 }
-  handlers:
-        include: handlers.yml    
-  notify:
-      - sysctl flush ipv4 route table
+      - { name: net.ipv4.conf.default.accept_source_route, value: 0 }    
   when:
       - rhel7cis_rule_3_2_1|bool
   tags:
@@ -57,8 +53,8 @@
   with_items:
       - { name: net.ipv4.conf.all.accept_redirects, value: 0 }
       - { name: net.ipv4.conf.default.accept_redirects, value: 0 }
-  handlers:
-        include: handlers.yml
+
+        
   notify:
       - sysctl flush ipv4 route table
   when:
@@ -79,9 +75,7 @@
       ignoreerrors: yes
   with_items:
       - { name: net.ipv4.conf.all.secure_redirects, value: 0 }
-      - { name: net.ipv4.conf.default.secure_redirects, value: 0 }
-  handlers:
-        include: handlers.yml    
+      - { name: net.ipv4.conf.default.secure_redirects, value: 0 }    
   notify:
       - sysctl flush ipv4 route table
   when:
@@ -103,8 +97,8 @@
   with_items:
       - { name: net.ipv4.conf.all.log_martians, value: 1 }
       - { name: net.ipv4.conf.default.log_martians, value: 1 }
-  handlers:
-        include: handlers.yml
+
+        
   notify:
       - sysctl flush ipv4 route table
   when:
@@ -122,8 +116,8 @@
       state: present
       reload: yes
       ignoreerrors: yes
-  handlers:
-        include: handlers.yml
+
+        
   notify:
       - sysctl flush ipv4 route table
   when:
@@ -141,8 +135,8 @@
       state: present
       reload: yes
       ignoreerrors: yes
-  handlers:
-        include: handlers.yml
+
+        
   notify:
       - sysctl flush ipv4 route table
   when:
@@ -164,8 +158,8 @@
   with_items:
       - { name: net.ipv4.conf.all.rp_filter, value: 1 }
       - { name: net.ipv4.conf.default.rp_filter, value: 1 }
-  handlers:
-        include: handlers.yml
+
+        
   notify:
       - sysctl flush ipv4 route table
   when:
@@ -183,8 +177,8 @@
       state: present
       reload: yes
       ignoreerrors: yes
-  handlers:
-        include: handlers.yml
+
+        
   notify:
       - sysctl flush ipv4 route table
   when:
@@ -206,8 +200,8 @@
   with_items:
       - { name: net.ipv6.conf.all.accept_ra, value: 0 }
       - { name: net.ipv6.conf.default.accept_ra, value: 0 }
-  handlers:
-        include: handlers.yml
+
+        
   notify:
       - sysctl flush ipv6 route table
   when:
@@ -230,8 +224,8 @@
   with_items:
       - { name: net.ipv6.conf.all.accept_redirects, value: 0 }
       - { name: net.ipv6.conf.default.accept_redirects, value: 0 }
-  handlers:
-        include: handlers.yml
+
+        
   notify:
       - sysctl flush ipv6 route table
   when:
@@ -249,8 +243,8 @@
       regexp: '^(GRUB_CMDLINE_LINUX=.*(?!.*ipv6\.disable=1)\"[^\"]+)(\".*)'
       line: '\1 ipv6.disable=1\2'
       backrefs: yes
-  handlers:
-        include: handlers.yml
+
+        
   notify:
       - grub2cfg
   when:
@@ -381,8 +375,8 @@
       name: firewalld
       state: present
   when: rhel7cis_firewall == "firewalld"
-  handlers:
-        include: handlers.yml
+
+        
   notify: restart firewalld
   tags:
       - level1
@@ -495,8 +489,8 @@
       zone: drop
       permanent: true
       immediate: true
-  handlers:
-        include: handlers.yml
+
+        
   notify: restart firewalld
   with_items: "{{ rhel7cis_firewall_services }}"
   when:
