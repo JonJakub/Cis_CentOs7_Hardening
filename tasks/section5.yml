@@ -552,40 +552,40 @@
        mode: "0666"
      when:
          - rhel7cis_rule_5_4_5|bool
-    - name: "5.4.5 Ensure default user umask is 027 or more restrictive  | /etc/pam.d/common-session"
-      lineinfile:
-        dest: /etc/pam.d/common-session
-        regexp: '^session optional\s+'
-        line: "session optional  pam_umask.so"
-      when:
-          - rhel7cis_rule_5_4_5|bool
-    - name: "5.4.5 Ensure default user umask is 027 or more restrictive - /etc/bash.bashrc"
-      lineinfile:
-        state: present
-        dest: /etc/bash.bashrc
-        create: true
-        regexp: "^umask "
-        line: "umask 027"
-      when:
-          - rhel7cis_rule_5_4_5|bool
-    - name: "5.4.5 Ensure default user umask is 027 or more restrictive - /etc/profile"
-      lineinfile:
-        state: present
-        dest: /etc/profile
-        create: true
-        regexp: "^umask "
-        line: "umask 027"
-      when:
-          - rhel7cis_rule_5_4_5|bool
-    - name: "5.4.5 Ensure default user umask is 027 or more restrictive - /etc/profile.d/umask.sh"
-      lineinfile:
-        state: present
-        dest: /etc/profile.d/umask.sh
-        create: true
-        regexp: "^umask "
-        line: "umask 027"
-      when:
-          - rhel7cis_rule_5_4_5|bool
+   - name: "5.4.5 Ensure default user umask is 027 or more restrictive  | /etc/pam.d/common-session"
+     lineinfile:
+       dest: /etc/pam.d/common-session
+       regexp: '^session optional\s+'
+       line: "session optional  pam_umask.so"
+     when:
+       - rhel7cis_rule_5_4_5|bool
+   - name: "5.4.5 Ensure default user umask is 027 or more restrictive - /etc/bash.bashrc"
+     lineinfile:
+       state: present
+       dest: /etc/bash.bashrc
+       create: true
+       regexp: "^umask "
+       line: "umask 027"
+     when:
+       - rhel7cis_rule_5_4_5|bool
+   - name: "5.4.5 Ensure default user umask is 027 or more restrictive - /etc/profile"
+     lineinfile:
+       state: present
+       dest: /etc/profile
+       create: true
+       regexp: "^umask "
+       line: "umask 027"
+     when:
+       - rhel7cis_rule_5_4_5|bool
+   - name: "5.4.5 Ensure default user umask is 027 or more restrictive - /etc/profile.d/umask.sh"
+     lineinfile:
+       state: present
+       dest: /etc/profile.d/umask.sh
+       create: true
+       regexp: "^umask "
+       line: "umask 027"
+     when:
+       - rhel7cis_rule_5_4_5|bool
   tags:
     - level_1
     - rule_5.4.5
