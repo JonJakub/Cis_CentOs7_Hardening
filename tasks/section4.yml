@@ -13,7 +13,7 @@
 - name: "SCORED | 4.2.1.1 | PATCH | Ensure rsyslog Service is enabled"
   service:
       name: rsyslog
-      state: running
+      state: started
       enabled: yes
   changed_when: no
   when:
