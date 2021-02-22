@@ -20,10 +20,7 @@
   with_items:
       - { name: net.ipv4.conf.all.send_redirects, value: 0 }
       - { name: net.ipv4.conf.default.send_redirects, value: 0 }
-  handlers:
-        include: handlers.yml    
-  notify:
-      - sysctl flush ipv4 route table
+  command:    sysctl -w net.ipv4.route.flush=1
   when:
       - not rhel7cis_is_router
       - rhel7cis_rule_3_1_2|bool
