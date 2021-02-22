@@ -5,6 +5,8 @@
       state: present
       reload: yes
       ignoreerrors: yes
+      handlers:
+        include: handlers.yml
   notify:
       - sysctl_flush_ipv4_route_table
   when:
