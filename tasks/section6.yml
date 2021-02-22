@@ -173,23 +173,23 @@
 - name: "6.2.0.1 | Ensure accounts in /etc/passwd use shadowed passwords"
   shell: |
     sed -e 's/^\([a-zA-Z0-9_]*\):[^:]*:/\1:x:/' -i /etc/passwd
-  register: output_6.2.0.1
+  register: output_6.2.0
   when:
-      - rhel7cis_rule_6.2.0.1|bool
+      - rhel7cis_rule_6.2.0|bool
   tags:
       - level1
-      - rule_6.2.0.1
+      - rule_6.2.0
 
 - name: " 6.2.0.1 | Ensure accounts in /etc/passwd use shadowed passwords"
   copy:
-        dest: "{{ outputfiles }}/6.2.0.1"
+        dest: "{{ outputfiles }}/6.2.0"
         content: "{{ output_6.2.0.1 }}"
   register: output_6.2.0.1
   when:
-      - rhel7cis_rule_6.2.0.1|bool
+      - rhel7cis_rule_6.2.0.bool
   tags:
       - level1
-      - rule_6.2.0.1
+      - rule_6.2.0
 
 
 
