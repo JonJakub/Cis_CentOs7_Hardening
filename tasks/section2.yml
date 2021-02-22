@@ -270,14 +270,10 @@
       - patch
       - rule_2.2.1.2
 
-- name: "SCORED | 2.2.1.2 | PATCH | Ensure ntp is configured | modify /etc/sysconfig/ntpd"
-  lineinfile:
-      dest: /etc/sysconfig/ntpd
-      regexp: "^(#)?OPTIONS"
-      line: "OPTIONS=\"-u ntp:ntp\""
-  when:
-      - rhel7cis_time_synchronization == "ntp"
-      - rhel7cis_rule_2_2_1_2|bool
+- name: "SCORED | 2.2.1.2 | PATCH | Ensure ntp is configured | modify /etc/sysconfig/ntpd"   
+  #### Notimplemented default na CentOS Azure image je chronyd
+  debug:
+    msg: "-->  Notimplemented default na CentOS Azure image je chronyd"
   tags:
       - level1
       - patch

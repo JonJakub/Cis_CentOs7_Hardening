@@ -283,140 +283,66 @@
       - patch
       - rule_3.4.5
 
-- name: "NOTSCORED | 3.5.1 | PATCH | Ensure DCCP is disabled"
-  lineinfile:
-      dest: /etc/modprobe.d/CIS.conf
-      regexp: "^(#)?install dccp(\\s|$)"
-      line: "install dccp /bin/true"
-      create: yes
-  when:
-      - rhel7cis_rule_3_5_1|bool
+
+
+- name: "SCORED | 3.5.1.1 | PATCH | Ensure firewalld is installed and started"
+#### NOTIMPLEMENTED
+  debug:
+    msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
   tags:
       - level1
       - patch
-      - rule_3.5.1
+      - rule_3.5.1.1
 
-- name: "NOTSCORED | 3.5.2 | PATCH | Ensure SCTP is disabled"
-  lineinfile:
-      dest: /etc/modprobe.d/CIS.conf
-      regexp: "^(#)?install sctp(\\s|$)"
-      line: "install sctp /bin/true"
-      create: yes
-  when:
-      - rhel7cis_rule_3_5_2|bool
+- name: "SCORED | 3.5.1.2 | PATCH | Ensure iptables-services package is not installed"
+#### NOTIMPLEMENTED
+  debug:
+    msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
   tags:
       - level1
       - patch
-      - rule_3.5.2
-
-- name: "NOTSCORED | 3.5.3 | PATCH | Ensure RDS is disabled"
-  lineinfile:
-      dest: /etc/modprobe.d/CIS.conf
-      regexp: "^(#)?install rds(\\s|$)"
-      line: "install rds /bin/true"
-      create: yes
-  when:
-      - rhel7cis_rule_3_5_3|bool
-  tags:
-      - level1
-      - patch
-      - rule_3.5.3
-
-- name: "NOTSCORED | 3.5.4 | PATCH | Ensure TIPC is disabled"
-  lineinfile:
-      dest: /etc/modprobe.d/CIS.conf
-      regexp: "^(#)?install tipc(\\s|$)"
-      line: "install tipc /bin/true"
-      create: yes
-  when:
-      - rhel7cis_rule_3_5_4|bool
-  tags:
-      - level1
-      - patch
-      - rule_3.5.4
-
-- name: "SCORED | 3.6 | PATCH | Ensure firewalld is installed and started | CUSTOM"
-  yum:
-      name: firewalld
-      state: present
-  when: rhel7cis_firewall == "firewalld"
-
-        
-  notify: restart firewalld
-  tags:
-      - level1
-      - patch
-      - rule_3.6
-
-- name: "SCORED | 3.6 | PATCH | Ensure firewalld is installed and started | CUSTOM"
-  service:
-      name: firewalld
-      state: started
-      enabled: yes
-  when: rhel7cis_firewall == "firewalld"
-  tags:
-      - level1
-      - patch
-      - rule_3.6
+      - rule_3.5.1.2    
 
 - name: "SCORED | 3.6.1 | PATCH | Ensure iptables is installed"
-  yum:
-      name: iptables
-      state: present
-  when:
-      - rhel7cis_firewall == "iptables"
-      - rhel7cis_rule_3_6_1|bool
+  #### NOTIMPLEMENTED
+  debug:
+    msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
   tags:
       - level1
       - patch
       - rule_3.6.1
 
 - name: "SCORED | 3.6.1 | PATCH | Ensure iptables is installed and started"
-  service:
-      name: iptables
-      state: started
-      enabled: yes
-  when:
-      - rhel7cis_firewall == "iptables"
-      - rhel7cis_rule_3_6_1|bool
+  #### NOTIMPLEMENTED
+  debug:
+    msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
   tags:
       - level1
       - patch
       - rule_3.6.1
 
 - name: "SCORED | 3.6.2 | PATCH | Ensure default deny firewall policy"
-  lineinfile:
-      dest: /etc/firewalld/firewalld.conf
-      regexp: "^DefaultZone"
-      line: "DefaultZone=drop"
-  when:
-      - rhel7cis_firewall == "firewalld"
-      - rhel7cis_rule_3_6_2|bool
+#### NOTIMPLEMENTED
+  debug:
+    msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
   tags:
       - level1
       - patch
       - rule_3.6.2
 
 - name: "SCORED | 3.6.2 | PATCH | Ensure default deny firewall policy"
-  firewalld:
-      state: enabled
-      zone: drop
-      permanent: true
-  when:
-      - rhel7cis_firewall == "firewalld"
-      - rhel7cis_rule_3_6_2|bool
-      - ansible_connection != 'docker'
+#### NOTIMPLEMENTED
+  debug:
+    msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
   tags:
       - level1
       - patch
       - rule_3.6.2
 
 - name: "SCORED | 3.6.2 | PATCH | Ensure default deny firewall policy"
-  command: /bin/true
-  changed_when: no
-  when:
-      - rhel7cis_firewall == "iptables"
-      - rhel7cis_rule_3_6_2|bool
+#### NOTIMPLEMENTED
+  debug:
+    msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
   tags:
       - level1
       - patch
@@ -424,11 +350,9 @@
       - notimplemented
 
 - name: "SCORED | 3.6.3 | PATCH | Ensure loopback traffic is configured"
-  command: /bin/true
-  changed_when: no
-  when:
-      - rhel7cis_firewall == "iptables"
-      - rhel7cis_rule_3_6_3|bool
+#### NOTIMPLEMENTED
+  debug:
+    msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
   tags:
       - level1
       - patch
@@ -436,11 +360,9 @@
       - notimplemented
 
 - name: "NOTSCORED | 3.6.4 | PATCH | Ensure outbound and established connections are configured"
-  command: /bin/true
-  changed_when: no
-  when:
-      - rhel7cis_firewall == "iptables"
-      - rhel7cis_rule_3_6_4|bool
+#### NOTIMPLEMENTED
+  debug:
+    msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
   tags:
       - level1
       - patch
@@ -448,42 +370,21 @@
       - notimplemented
 
 - name: "SCORED | 3.6.5 | PATCH | Ensure firewall rules exist for all open ports"
-  firewalld:
-      service: "{{ item }}"
-      state: enabled
-      zone: drop
-      permanent: true
-      immediate: true
-
-        
-  notify: restart firewalld
-  with_items: "{{ rhel7cis_firewall_services }}"
-  when:
-      - rhel7cis_firewall == "firewalld"
-      - rhel7cis_rule_3_6_5|bool
-      - ansible_connection != 'docker'
+#### NOTIMPLEMENTED
+  debug:
+    msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
   tags:
       - level1
       - patch
       - rule_3.6.5
-
-- name: "SCORED | 3.6.5 | PATCH | Ensure firewall rules exist for all open ports"
-  command: /bin/true
-  changed_when: no
-  when:
-      - rhel7cis_firewall == "iptables"
-      - rhel7cis_rule_3_6_5|bool
-  tags:
-      - level1
-      - patch
-      - rule_3.6.5
-      - notimplemented
 
 - name: "NOTSCORED | 3.7 | PATCH | Ensure wireless interfaces are disabled"
-  command: /bin/true
-  changed_when: no
+#### NOTIMPLEMENTED
+  debug:
+    msg: "-->  VM servery nebudou mit wireless interface"
   tags:
       - level1
       - level2
       - patch
       - rule_3.7
+VM servery nebudou mit wireless interface
