@@ -1,14 +1,3 @@
-- name: "NOTSCORED | 6.1.1 | PATCH | Audit system file permissions"
-  command: /bin/true
-  changed_when: no
-  when:
-      - rhel7cis_rule_6_1_1|bool
-  tags:
-      - level2
-      - patch
-      - rule_6.1.1
-      - notimplemented
-
 - name: "SCORED | 6.1.2 | PATCH | Ensure permissions on /etc/passwd are configured"
   file:
       dest: /etc/passwd
