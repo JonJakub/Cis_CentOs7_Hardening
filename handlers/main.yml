@@ -3,10 +3,7 @@
 
 - name: "sysctl_flush_ipv4_route_table"
   become: yes
-  sysctl:
-      name: net.ipv4.route.flush
-      value: 1
-      sysctl_set: yes
+  command: "sysctl -w net.ipv4.route.flush=1"
   when: ansible_virtualization_type != "docker"
 
 - name: "sysctl flush ipv6 route table"
