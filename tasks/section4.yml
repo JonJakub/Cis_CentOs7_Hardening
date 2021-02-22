@@ -90,10 +90,10 @@
         dest: /etc/rsyslog.conf
         regexp: '^\$ModLoad'
         line: "$ModLoad imtcp"
-  with_items:
-    - { name: restart.rsyslog }
   when:
       - rhel7cis_rule_4_2_1_5|bool
+  with_items:
+    - { name: restart.rsyslog }
   tags:
       - level1
       - level2
