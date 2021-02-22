@@ -42,7 +42,14 @@
       - patch
       - rule_3.2.1
 
-- name: "SCORED | 3.2.2 | PATCH | Ensure ICMP redirects are not accepted"  
+- name: "SCORED | 3.2.2 | PATCH | Ensure ICMP redirects are not accepted"
+  sysctl:
+      name: '{{ item.name }}'
+      value: '{{ item.value }}'
+      sysctl_set: yes
+      state: present
+      reload: yes
+      ignoreerrors: yes  
   with_items:
       - { name: net.ipv4.conf.all.accept_redirects, value: 0 }
       - { name: net.ipv4.conf.default.accept_redirects, value: 0 }
