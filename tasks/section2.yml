@@ -337,7 +337,7 @@
       - patch
       - rule_2.2.2
 
-- name: "SCORED | 2.2.3 | PATCH | Ensure Avahi Server is not enabled"
+- name: "SCORED | 2.2.3 | PATCH | Ensure Avahi Server is not installed"
   yum:
       name: avahi-daemon
       state: absent
@@ -353,7 +353,7 @@
       - patch
       - rule_2.2.3
 
-- name: "SCORED | 2.2.4 | PATCH | Ensure CUPS is not enabled"
+- name: "SCORED | 2.2.4 | PATCH | Ensure CUPS is not installed"
   yum:
       name: cups
       state: absent
@@ -369,7 +369,7 @@
       - patch
       - rule_2.2.4
 
-- name: "SCORED | 2.2.5 | PATCH | Ensure DHCP Server is not enabled"
+- name: "SCORED | 2.2.5 | PATCH | Ensure DHCP Server is not installed"
   yum:
       name: dhcpd
       state: absent
@@ -385,11 +385,10 @@
       - patch
       - rule_2.2.5
 
-- name: "SCORED | 2.2.6 | PATCH | Ensure LDAP server is not enabled"
+- name: "SCORED | 2.2.6 | PATCH | Ensure LDAP server is not installed"
   yum:
       name: slapd
       state: absent
-      enabled: no
   when:
       - not rhel7cis_ldap_server
     #  - slapd_service_status.stdout == "loaded"
@@ -402,7 +401,7 @@
       - patch
       - rule_2.2.6
 
-- name: "SCORED | 2.2.7 | PATCH | Ensure NFS and RPC are not enabled"
+- name: "SCORED | 2.2.7 | PATCH | Ensure NFS and RPC are not installed"
   yum:
       name: nfs
       state: absent
@@ -419,7 +418,7 @@
       - patch
       - rule_2.2.7
 
-- name: "SCORED | 2.2.7 | PATCH | Ensure RPC is not enabled"
+- name: "SCORED | 2.2.7 | PATCH | Ensure RPC is not installed"
   yum:
       name: rpcbind
       state: absent
@@ -436,7 +435,7 @@
       - patch
       - rule_2.2.7
 
-- name: "SCORED | 2.2.8 | PATCH | Ensure DNS Server is not enabled"
+- name: "SCORED | 2.2.8 | PATCH | Ensure DNS Server is not installed"
   yum:
       name: named
       state: absent
@@ -449,7 +448,7 @@
       - patch
       - rule_2.2.8
 
-- name: "SCORED | 2.2.9 | PATCH | Ensure FTP Server is not enabled"
+- name: "SCORED | 2.2.9 | PATCH | Ensure FTP Server is not installed"
   yum:
       name: vsftpd
       state: absent
@@ -462,7 +461,7 @@
       - patch
       - rule_2.2.9
 
-- name: "SCORED | 2.2.10 | PATCH | Ensure HTTP server is not enabled"
+- name: "SCORED | 2.2.10 | PATCH | Ensure HTTP server is not installed"
   yum:
       name: httpd
       state: absent
@@ -475,7 +474,7 @@
       - patch
       - rule_2.2.10
 
-- name: "SCORED | 2.2.11 | PATCH | Ensure IMAP and POP3 server is not enabled"
+- name: "SCORED | 2.2.11 | PATCH | Ensure IMAP and POP3 server is not installed"
   yum:
       name: dovecot
       state: absent
@@ -488,7 +487,7 @@
       - patch
       - rule_2.2.11
 
-- name: "SCORED | 2.2.12 | PATCH | Ensure Samba is not enabled"
+- name: "SCORED | 2.2.12 | PATCH | Ensure Samba is not installed"
   yum:
       name: smb
       state: absent
@@ -501,7 +500,7 @@
       - patch
       - rule_2.2.12
 
-- name: "SCORED | 2.2.13 | PATCH | Ensure HTTP Proxy Server is not enabled"
+- name: "SCORED | 2.2.13 | PATCH | Ensure HTTP Proxy Server is not installed"
   yum:
       name: squid
       state: absent
@@ -514,7 +513,7 @@
       - patch
       - rule_2.2.13
 
-- name: "SCORED | 2.2.14 | PATCH | Ensure SNMP Server is not enabled"
+- name: "SCORED | 2.2.14 | PATCH | Ensure SNMP Server is not installed"
   yum:
       name: snmpd
       state: absent
@@ -541,7 +540,7 @@
       - patch
       - rule_2.2.15
 
-- name: "SCORED | 2.2.16 | PATCH | Ensure NIS Server is not enabled"
+- name: "SCORED | 2.2.16 | PATCH | Ensure NIS Server is not installed"
   yum:
       name: ypserv
       state: absent
@@ -554,7 +553,7 @@
       - patch
       - rule_2.2.16
 
-- name: "SCORED | 2.2.17 | PATCH | Ensure rsh server is not enabled | rsh"
+- name: "SCORED | 2.2.17 | PATCH | Ensure rsh server is not installed | rsh"
   yum:
       name: rsh.socket
       state: absent
@@ -567,7 +566,7 @@
       - patch
       - rule_2.2.17
 
-- name: "SCORED | 2.2.17 | PATCH | Ensure rsh server is not enabled | rlogin"
+- name: "SCORED | 2.2.17 | PATCH | Ensure rsh server is not installed | rlogin"
   yum:
       name: rlogin.socket
       state: absent
@@ -580,7 +579,7 @@
       - patch
       - rule_2.2.17
 
-- name: "SCORED | 2.2.17 | PATCH | Ensure rsh server is not enabled | rexec"
+- name: "SCORED | 2.2.17 | PATCH | Ensure rsh server is not installed | rexec"
   yum:
       name: rexec.socket
       state: absent
@@ -593,7 +592,7 @@
       - patch
       - rule_2.2.17
 
-- name: "SCORED | 2.2.18 | PATCH | Ensure telnet server is not enabled"
+- name: "SCORED | 2.2.18 | PATCH | Ensure telnet server is not installed"
   yum:
       name: telnet
       state: absent
@@ -606,7 +605,7 @@
       - patch
       - rule_2.2.18
 
-- name: "SCORED | 2.2.19 | PATCH | Ensure tftp server is not enabled"
+- name: "SCORED | 2.2.19 | PATCH | Ensure tftp server is not installed"
   yum:
       name: tftp
       state: absent
@@ -622,7 +621,7 @@
       - patch
       - rule_2.2.19
 
-- name: "SCORED | 2.2.20 | PATCH | Ensure rsync service is not enabled "
+- name: "SCORED | 2.2.20 | PATCH | Ensure rsync service is not installed"
   yum:
       name: rsyncd
       state: absent
