@@ -76,8 +76,6 @@
   with_items:
       - { name: net.ipv4.conf.all.secure_redirects, value: 0 }
       - { name: net.ipv4.conf.default.secure_redirects, value: 0 }    
-  notify:
-      - sysctl flush ipv4 route table
   when:
       - rhel7cis_rule_3_2_3|bool
   tags:
@@ -97,10 +95,6 @@
   with_items:
       - { name: net.ipv4.conf.all.log_martians, value: 1 }
       - { name: net.ipv4.conf.default.log_martians, value: 1 }
-
-        
-  notify:
-      - sysctl flush ipv4 route table
   when:
       - rhel7cis_rule_3_2_4|bool
   tags:
@@ -116,10 +110,6 @@
       state: present
       reload: yes
       ignoreerrors: yes
-
-        
-  notify:
-      - sysctl flush ipv4 route table
   when:
       - rhel7cis_rule_3_2_5|bool
   tags:
@@ -135,10 +125,6 @@
       state: present
       reload: yes
       ignoreerrors: yes
-
-        
-  notify:
-      - sysctl flush ipv4 route table
   when:
       - rhel7cis_rule_3_2_6|bool
   tags:
@@ -178,9 +164,6 @@
       reload: yes
       ignoreerrors: yes
 
-        
-  notify:
-      - sysctl flush ipv4 route table
   when:
       - rhel7cis_rule_3_2_8|bool
   tags:
@@ -200,10 +183,6 @@
   with_items:
       - { name: net.ipv6.conf.all.accept_ra, value: 0 }
       - { name: net.ipv6.conf.default.accept_ra, value: 0 }
-
-        
-  notify:
-      - sysctl flush ipv6 route table
   when:
       - rhel7cis_ipv6_required | bool
       - rhel7cis_rule_3_3_1|bool
@@ -224,10 +203,6 @@
   with_items:
       - { name: net.ipv6.conf.all.accept_redirects, value: 0 }
       - { name: net.ipv6.conf.default.accept_redirects, value: 0 }
-
-        
-  notify:
-      - sysctl flush ipv6 route table
   when:
       - rhel7cis_ipv6_required | bool
       - rhel7cis_rule_3_3_2|bool
@@ -243,10 +218,6 @@
       regexp: '^(GRUB_CMDLINE_LINUX=.*(?!.*ipv6\.disable=1)\"[^\"]+)(\".*)'
       line: '\1 ipv6.disable=1\2'
       backrefs: yes
-
-        
-  notify:
-      - grub2cfg
   when:
       - not rhel7cis_ipv6_required
       - rhel7cis_rule_3_3_3|bool
