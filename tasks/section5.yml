@@ -386,8 +386,8 @@
             regexp: "(?i)^AllowGroups"
             line: AllowGroups {{ rhel7cis_sshd['allowgroups'] }}
             validate: /usr/sbin/sshd -t -f %s
-          with_items:
-            - { name: restart.sshd }
+        with_items:
+          - { name: restart.sshd }
         when:
             - rhel7cis_sshd['allowgroups'] | default('')
 
