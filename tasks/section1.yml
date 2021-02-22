@@ -122,20 +122,6 @@
       - rule_1.1.9
       - rule_1.1.10
 
-- name: "SCORED | 1.1.11 | PATCH | Ensure separate partition exists for /var/log"
-  shell: mount | grep "on /var/log "
-  register: var_log_mounted
-  changed_when: no
-  failed_when: no
-  when:
-      - rhel7cis_rule_1_1_11|bool
-  tags:
-      - level2
-      - scored
-      - patch
-      - rule_1.1.11
-      - skip_ansible_lint
-
 - name: "SCORED | 1.1.12 | PATCH | Ensure separate partition exists for /var/log/audit"
   shell: mount | grep "on /var/log/audit "
   register: var_log_audit_mounted
