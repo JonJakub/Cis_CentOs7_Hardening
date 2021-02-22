@@ -95,7 +95,8 @@
       - level2
       - patch
       - rule_4.2.1.5
-      - notimplemented
+
+
 
 - name: "NOTSCORED | 4.2.1.5 | PATCH | Ensure remote rsyslog messages are only accepted on designated log hosts."
   lineinfile:
@@ -111,7 +112,43 @@
       - level2
       - patch
       - rule_4.2.1.5
-      - notimplemented
+
+
+
+- name: "4.2.2.1 | Ensure journald is configured to send logs to rsyslog"
+  lineinfile:
+    dest: /etc/systemd/journald.conf
+    regexp: "(#)?ForwardToSyslog=(yes|no)"
+    line: ForwardToSyslog=yes
+  when:
+      - rhel7cis_rule_4_2_2_1|bool
+  tags:
+      - level1
+      - rule_4.2.2.1
+
+- name: "4.2.2.2.2 Ensure journald is configured to compress large log files"
+  lineinfile:
+    dest: /etc/systemd/journald.conf
+    regexp: "(#)?Compress=(yes|no)"
+    line: Compress=yes
+  when:
+      - rhel7cis_rule_4_2_2_2.2|bool
+  tags:
+      - level1
+      - rule_4.2.2.2.2
+
+- name: "4.2.2.3 Ensure journald is configured to write logfiles to persistent disk"
+  lineinfile:
+    dest: /etc/systemd/journald.conf
+    regexp: "(#)?Storage=(auto|persistent)"
+    line: Storage=persistent
+  notify:
+    - journald restart
+  when:
+      - rhel7cis_rule_4_2_2_3|bool
+  tags:
+      - level1
+      - rule_4.2.2.3
 
 
 - name: "NOTSCORED | 4.2.2.2 | PATCH | Ensure logging is configured"
