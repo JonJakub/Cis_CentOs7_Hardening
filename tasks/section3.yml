@@ -1,3 +1,7 @@
+- name: "Nacti Handler"
+  handlers:
+    include: handlers.yml
+
 - name: "SCORED | 3.1.1 | PATCH | Ensure IP forwarding is disabled"
   command: "sysctl -w net.ipv4.ip_forward=0"
   when:
