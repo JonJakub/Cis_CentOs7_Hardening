@@ -199,14 +199,6 @@
   tags:
       - skip_ansible_lint #  ANSIBLE0006
 
-- name: "PRELIM | Check for snmpd service"
-  shell: "systemctl show snmpd | grep LoadState | cut -d = -f 2"
-  register: snmpd_service_status
-  changed_when: no
-  check_mode: no
-  tags:
-      - skip_ansible_lint #  ANSIBLE0006
-
 - name: "PRELIM | Check for ypserv service"
   shell: "systemctl show ypserv | grep LoadState | cut -d = -f 2"
   register: ypserv_service_status
@@ -247,14 +239,6 @@
   tags:
       - skip_ansible_lint #  ANSIBLE0006
 
-- name: "PRELIM | Check for tftp service"
-  shell: "systemctl show tftp | grep LoadState | cut -d = -f 2"
-  register: tftp_service_status
-  changed_when: no
-  check_mode: no
-  tags:
-      - skip_ansible_lint #  ANSIBLE0006
-
 - name: "PRELIM | Check for rsyncd service"
   shell: "systemctl show rsyncd | grep LoadState | cut -d = -f 2"
   register: rsyncd_service_status
@@ -263,25 +247,10 @@
   tags:
       - skip_ansible_lint #  ANSIBLE0006
 
-- name: "PRELIM | Check for ntalk service"
-  shell: "systemctl show ntalk | grep LoadState | cut -d = -f 2"
-  register: ntalk_service_status
-  changed_when: no
-  check_mode: no
-  tags:
-      - skip_ansible_lint #  ANSIBLE0006
 
 - name: "PRELIM | Check for autofs service"
   shell: "systemctl show autofs | grep LoadState | cut -d = -f 2"
   register: autofs_service_status
-  changed_when: no
-  check_mode: no
-  tags:
-      - skip_ansible_lint #  ANSIBLE0006
-
-- name: "PRELIM | Check for rhnsd service"
-  shell: "systemctl show rhnsd | grep LoadState | cut -d = -f 2"
-  register: rhnsd_service_status
   changed_when: no
   check_mode: no
   tags:
@@ -294,5 +263,5 @@
   changed_when: no
   check_mode: no
   tags:
-      - skip_ansible_tmp_mount #  ANSIBLE0006
+      - skip_ansible_tmp_mount
 

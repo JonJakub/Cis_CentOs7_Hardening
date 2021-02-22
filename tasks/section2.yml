@@ -167,22 +167,6 @@
       - patch
       - rule_2.1.5
 
-- name: "SCORED | 2.1.6 | PATCH | Ensure tftp server is not enabled"
-  block:
-      - name: "SCORED | 2.1.6 | PATCH | Ensure tftp server is not enabled"
-        stat:
-            path: /etc/xinetd.d/tftp
-        register: tftp_service
-
-      - name: "SCORED | 2.1.6 | PATCH | Ensure tftp server is not enabled"
-        command: chkconfig tftp off
-        notify: restart xinetd
-        when:
-            - tftp_service.stat.exists
-            - not rhel7cis_tftp_server
-        tags:
-            - skip_ansible_lint
-
   when:
       - rhel7cis_rule_2_1_6|bool
   tags:
@@ -471,19 +455,6 @@
       - patch
       - rule_2.2.13
 
-- name: "SCORED | 2.2.14 | PATCH | Ensure SNMP Server is not installed"
-  yum:
-      name: snmpd
-      state: absent
-  when:
-      - not rhel7cis_snmp_server
-    #  - snmpd_service_status.stdout == "loaded"
-      - rhel7cis_rule_2_2_14|bool
-  tags:
-      - level1
-      - patch
-      - rule_2.2.14
-
 - name: "SCORED | 2.2.15 | PATCH | Ensure mail transfer agent is configured for local-only mode"
   lineinfile:
       dest: /etc/postfix/main.cf
@@ -511,44 +482,6 @@
       - patch
       - rule_2.2.16
 
-- name: "SCORED | 2.2.17 | PATCH | Ensure rsh server is not installed | rsh"
-  yum:
-      name: rsh.socket
-      state: absent
-  when:
-      - not rhel7cis_rsh_server
-    #  - rsh_service_status.stdout == "loaded"
-      - rhel7cis_rule_2_2_17|bool
-  tags:
-      - level1
-      - patch
-      - rule_2.2.17
-
-- name: "SCORED | 2.2.17 | PATCH | Ensure rsh server is not installed | rlogin"
-  yum:
-      name: rlogin.socket
-      state: absent
-  when:
-      - not rhel7cis_rsh_server
-    #  - rlogin_service_status.stdout == "loaded"
-      - rhel7cis_rule_2_2_17|bool
-  tags:
-      - level1
-      - patch
-      - rule_2.2.17
-
-- name: "SCORED | 2.2.17 | PATCH | Ensure rsh server is not installed | rexec"
-  yum:
-      name: rexec.socket
-      state: absent
-  when:
-      - not rhel7cis_rsh_server
-    #  - rexec_service_status.stdout == "loaded"
-      - rhel7cis_rule_2_2_17|bool
-  tags:
-      - level1
-      - patch
-      - rule_2.2.17
 
 - name: "SCORED | 2.2.18 | PATCH | Ensure telnet server is not installed"
   yum:
@@ -563,21 +496,6 @@
       - patch
       - rule_2.2.18
 
-- name: "SCORED | 2.2.19 | PATCH | Ensure tftp server is not installed"
-  yum:
-      name: tftp
-      state: absent
-  when:
-      - not rhel7cis_tftp_server
-    #  - tftp_service_status.stdout == "loaded"
-      - rhel7cis_rule_2_2_19|bool
-  tags:
-      - level1
-      - scored
-      - insecure_services
-      - tftp
-      - patch
-      - rule_2.2.19
 
 - name: "SCORED | 2.2.20 | PATCH | Ensure rsync service is not installed"
   yum:
@@ -640,15 +558,3 @@
       - level1
       - patch
       - rule_2.3.4
-
-- name: "SCORED | 2.3.5 | PATCH | Ensure LDAP client is not installed"
-  yum:
-      name: openldap-clients
-      state: absent
-  when:
-      - not rhel7cis_openldap_clients_required
-      - rhel7cis_rule_2_3_5|bool
-  tags:
-      - level1
-      - patch
-      - rule_2.3.5

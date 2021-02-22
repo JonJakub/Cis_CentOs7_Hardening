@@ -270,10 +270,8 @@ rhel7cis_nfs_server: false
 rhel7cis_rpc_server: false
 rhel7cis_ntalk_server: false
 rhel7cis_rsyncd_server: false
-rhel7cis_tftp_server: false
 rhel7cis_rsh_server: false
 rhel7cis_nis_server: false
-rhel7cis_snmp_server: false
 rhel7cis_squid_server: false
 rhel7cis_smb_server: false
 rhel7cis_dovecot_server: false
@@ -288,7 +286,6 @@ rhel7cis_httpd: false
 rhel7cis_dovecot: false
 rhel7cis_samba: false
 rhel7cis_squid: false
-rhel7cis_net_snmp: false
 rhel7cis_allow_autofs: false
 
 # xinetd required
