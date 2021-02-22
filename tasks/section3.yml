@@ -1,12 +1,6 @@
 - name: "SCORED | 3.1.1 | PATCH | Ensure IP forwarding is disabled"
-  sysctl:
-      name: net.ipv4.ip_forward
-      value: '0'
-      state: present
-      reload: yes
-      ignoreerrors: yes
-      handlers:
-        include: handlers.yml
+  handlers:
+    include: handlers.yml
   notify:
       - sysctl_flush_ipv4_route_table
   when:
