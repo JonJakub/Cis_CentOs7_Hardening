@@ -1,17 +1,4 @@
-- name: "NOTSCORED | 4.1.1.1 | PATCH | Ensure audit log storage size is configured"
-  lineinfile:
-      dest: /etc/audit/auditd.conf
-      regexp: "^max_log_file( |=)"
-      line: "max_log_file = 10"
-      state: present
-  when:
-      - rhel7cis_rule_4_1_1_1|bool
-  notify: restart auditd
-  tags:
-      - level2
-      - auditd
-      - patch
-      - rule_4.1.1.1
+
 
 - name: "SCORED | 4.1.1.2 | PATCH | Ensure system is disabled when audit logs are full"
   lineinfile:
