@@ -544,12 +544,12 @@
 - name: 5.4.5 Ensure default user umask is 027 or more restrictive
   block:
    - name: 5.4.5 Ensure default user umask is 027 or more restrictive | /etc/login.defs
-      lineinfile:
-        state: present
-        dest: /etc/login.defs
-        regexp: '^UMASK\s'
-        line: "UMASK 027"
-        mode: "0666"
+     lineinfile:
+       state: present
+       dest: /etc/login.defs
+       regexp: '^UMASK\s'
+       line: "UMASK 027"
+       mode: "0666"
      when:
          - rhel7cis_rule_5_4_5|bool
     - name: 5.4.5 Ensure default user umask is 027 or more restrictive  | /etc/pam.d/common-session
