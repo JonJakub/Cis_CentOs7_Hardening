@@ -194,8 +194,7 @@
 - name: "SCORED | 2.1.7 | PATCH | Ensure xinetd is not enabled"
   service:
       name: xinetd
-      state: stopped
-      enabled: no
+      state: absent
   when:
       - xinetd_service_status.stdout == "loaded"
       - rhel7cis_rule_2_1_7|bool
