@@ -142,8 +142,8 @@
     dest: /etc/systemd/journald.conf
     regexp: "(#)?Storage=(auto|persistent)"
     line: Storage=persistent
-  notify:
-    - journald restart
+  with_items:
+    - { name: restart.journald }
   when:
       - rhel7cis_rule_4_2_2_3|bool
   tags:
