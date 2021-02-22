@@ -336,8 +336,7 @@
   command: rpm -q gpg-pubkey --qf '%{name}-%{version}-%{release} --> %{summary}\n'
   changed_when: no
   when:
-      - rhel7cis_rule_1_2_3|bool
-    #  - ansible_distribution == "RedHat"
+      - rhel7cis_rule_1_2_3|bool 
   tags:
       - level1
       - notscored
@@ -349,27 +348,12 @@
   changed_when: no
   failed_when: no
   when:
-    #  - ansible_distribution == "RedHat"
       - rhel7cis_rule_1_2_4|bool
   tags:
       - level1
       - notscored
       - patch
       - rule_1.2.4
-
-- name: "NOTSCORED | 1.2.5 | PATCH | Disable the rhnsd Daemon"
-  service:
-      name: rhnsd
-      state: stopped
-      enabled: no
-  when:
-    #  - ansible_distribution == "RedHat"
-      - rhel7cis_rule_1_2_5|bool
-  tags:
-      - level2
-      - notscored
-      - patch
-      - rule_1.2.5
 
 - name: "NOTSCORED | 1.2.6 | Ensure sudo is installed"
   yum:
