@@ -84,16 +84,14 @@
       - notimplemented
 
 - name: "NOTSCORED | 4.2.1.5 | PATCH | Ensure remote rsyslog messages are only accepted on designated log hosts."
-  block:
-    - name: 4.2.1.6 Ensure remote rsyslog messages are only accepted on designated log hosts. | $ModLoad
-      lineinfile:
-        dest: /etc/rsyslog.conf
-        regexp: '^\$ModLoad'
-        line: "$ModLoad imtcp"
-  when:
-      - rhel7cis_rule_4_2_1_5|bool
+  lineinfile:
+    dest: /etc/rsyslog.conf
+    regexp: '^\$ModLoad'
+    line: "$ModLoad imtcp"
   with_items:
     - { name: restart.rsyslog }
+  when:
+      - rhel7cis_rule_4_2_1_5|bool
   tags:
       - level1
       - level2
@@ -103,9 +101,9 @@
 
 - name: "NOTSCORED | 4.2.1.5 | PATCH | Ensure remote rsyslog messages are only accepted on designated log hosts."
   lineinfile:
-        dest: /etc/rsyslog.conf
-        regexp: '^\$InputTCPServerRun'
-        line: "$InputTCPServerRun 514"
+    dest: /etc/rsyslog.conf
+    regexp: '^\$InputTCPServerRun'
+    line: "$InputTCPServerRun 514"
   with_items:
     - { name: restart.rsyslog }
   when:
