@@ -11,7 +11,10 @@
       - rule_4.2.3
 
 - name: "SCORED | 4.2.1.1 | PATCH | Ensure rsyslog Service is enabled"
-  command: /bin/true
+  service:
+      name: rsyslog
+      state: running
+      enabled: yes
   changed_when: no
   when:
       - rhel7cis_rule_4_2_1_1|bool
