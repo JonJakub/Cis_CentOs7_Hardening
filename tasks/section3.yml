@@ -6,7 +6,7 @@
       reload: yes
       ignoreerrors: yes
   notify:
-      - sysctl flush ipv4 route table
+      - sysctl_flush_ipv4_route_table
   when:
       - not rhel7cis_is_router
       - rhel7cis_rule_3_1_1|bool
