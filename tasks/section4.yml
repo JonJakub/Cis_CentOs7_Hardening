@@ -67,21 +67,19 @@
       - level2
       - patch
       - rule_4.2.1.3
-
-- name: "SCORED | 4.2.1.4 | PATCH | Ensure rsyslog is configured to send logs to a remote log host"
-  lineinfile:
-    path: /etc/rsyslog.conf
-    backup: yes
-    block: |
-      *.* action(type="omfwd" target="{{ remoteSyslog.host }}" port="{{ remoteSyslog.port }}" protocol="{{ remoteSyslog.protocol }}" action.resumeRetryCount="100" queue.type="LinkedList" queue.size="1000")
-  when:
-      - rhel7cis_rule_4_2_1_4|bool
-  tags:
-      - level1
-      - level2
-      - patch
-      - rule_4.2.1.4
-      - notimplemented
+      
+### where loghost.example.com is the name of your central log host  zjistit co e nas central log host ci to mame
+###- name: "SCORED | 4.2.1.4 | PATCH | Ensure rsyslog is configured to send logs to a remote log host"
+###  lineinfile:
+###    path: /etc/rsyslog.conf
+###    backup: yes
+###    block: |
+###    *.* @@loghost.example.com 
+### when:
+###      - rhel7cis_rule_4_2_1_4|bool
+###  tags:
+###      - level1
+###      - rule_4.2.1.4
 
 - name: "NOTSCORED | 4.2.1.5 | PATCH | Ensure remote rsyslog messages are only accepted on designated log hosts."
   lineinfile:
