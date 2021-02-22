@@ -280,6 +280,8 @@ rhel7cis_aide_cron:
 # SELinux policy
 rhel7cis_selinux_pol: targeted
 
+rhel7cis_selinux_disable: false
+
 # Whether or not to run tasks related to auditing/patching the desktop environment
 rhel7cis_gui: no
 
