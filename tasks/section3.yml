@@ -51,7 +51,7 @@
       reload: yes
       ignoreerrors: yes
 
-- name: "SCORED | 3.2.2 | PATCH | Ensure ICMP redirects are not accepted"
+- name: "SCORED | 3.2.2 | PATCH | Ensure ICMP redirects are not accepted part 2"
   handlers:
         - import_tasks: handlers/main.yml      
   with_items:
