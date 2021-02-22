@@ -286,3 +286,12 @@
   check_mode: no
   tags:
       - skip_ansible_lint #  ANSIBLE0006
+
+- name: "PRELIM | Check for tmp.mount"
+  stat:
+      path: /etc/systemd/system/tmp.mount
+  register: tmp_mount
+  changed_when: no
+  check_mode: no
+  tags:
+      - skip_ansible_tmp_mount #  ANSIBLE0006
