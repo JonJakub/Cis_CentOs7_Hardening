@@ -3,6 +3,9 @@
 - name: 'Ad_promene'
   include_vars: "main.yml"
 
+- name: 'Ad_handlers'
+  include_vars: "handlers/main.yml"
+
 - include: prelim.yml
   become: yes
   tags:
