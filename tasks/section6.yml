@@ -419,8 +419,8 @@
 
 - name: "6.2.20 | Ensure shadow group is empty"
   copy:
-        dest: "{{ outputfiles }}/6.2.17"
-        content: "{{ output_6_2_17 }}"
+        dest: "{{ outputfiles }}/6.2.20"
+        content: "{{ output_6_2_20 }}"
   register: output_6_2_20
   when:
       - rhel7cis_rule_6_2_20|bool
