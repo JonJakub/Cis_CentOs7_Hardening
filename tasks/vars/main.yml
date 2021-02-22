@@ -378,3 +378,5 @@ outputfiles: /root/
 ssh_key_algorithms: example
 
 shell_timeout_sec: 900
+
+remoteSyslog: example

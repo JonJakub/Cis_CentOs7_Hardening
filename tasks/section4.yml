@@ -74,8 +74,8 @@
     path: /etc/rsyslog.conf
     backup: yes
     block: |
-    example@loghost.example.com 
- when:
+    *.* action(type="omfwd" target="{{ remoteSyslog.host }}" port="{{ remoteSyslog.port }}" protocol="{{ remoteSyslog.protocol }}" action.resumeRetryCount="100" queue.type="LinkedList" queue.size="1000")
+  when:
       - rhel7cis_rule_4_2_1_4|bool
   tags:
       - level1
@@ -87,7 +87,7 @@
     regexp: '^\$ModLoad'
     line: "$ModLoad imtcp"
   with_items:
-    - { name: restart.rsyslog }
+  - { name: restart.rsyslog }
   when:
       - rhel7cis_rule_4_2_1_5|bool
   tags:
