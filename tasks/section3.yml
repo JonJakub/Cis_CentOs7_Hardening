@@ -291,7 +291,7 @@
     msg:
      "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
   when:
-      - rhel7cis_rule_3_4_5|bool   
+      - rhel7cis_rule_3_5_1_1|bool   
   tags:
       - level1
       - patch
@@ -301,6 +301,8 @@
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
+  when:
+      - rhel7cis_rule_3_5_1_2|bool
   tags:
       - level1
       - patch
@@ -310,6 +312,8 @@
   #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
+  when:
+      - rhel7cis_rule_3_6_1|bool 
   tags:
       - level1
       - patch
@@ -319,6 +323,8 @@
   #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
+  when:
+      - rhel7cis_rule_3_6_1|bool
   tags:
       - level1
       - patch
@@ -328,6 +334,8 @@
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
+  when:
+      - rhel7cis_rule_3_6_2|bool    
   tags:
       - level1
       - patch
@@ -337,6 +345,8 @@
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
+  when:
+      - rhel7cis_rule_3_6_2|bool
   tags:
       - level1
       - patch
@@ -346,6 +356,8 @@
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
+  when:
+      - rhel7cis_rule_3_6_2|bool
   tags:
       - level1
       - patch
@@ -356,6 +368,8 @@
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
+  when:
+      - rhel7cis_rule_3_6_3|bool
   tags:
       - level1
       - patch
@@ -366,6 +380,8 @@
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
+  when:
+      - rhel7cis_rule_3_6_4|bool
   tags:
       - level1
       - patch
@@ -376,6 +392,8 @@
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
+  when:
+      - rhel7cis_rule_3_6_5|bool
   tags:
       - level1
       - patch
@@ -385,6 +403,8 @@
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  VM servery nebudou mit wireless interface"
+  when:
+      - rhel7cis_rule_3_7|bool
   tags:
       - level1
       - level2
