@@ -175,7 +175,7 @@
     sed -e 's/^\([a-zA-Z0-9_]*\):[^:]*:/\1:x:/' -i /etc/passwd
   register: output_6.2.0
   when:
-      - rhel7cis_rule_6_2_0bool
+      - rhel7cis_rule_6_2_0|bool
   tags:
       - level1
       - rule_6.2.0
@@ -186,7 +186,7 @@
         content: "{{ output_6.2.0.1 }}"
   register: output_6.2.0.1
   when:
-      - rhel7cis_rule_6_2_0.bool
+      - rhel7cis_rule_6_2_0|bool
   tags:
       - level1
       - rule_6.2.0
