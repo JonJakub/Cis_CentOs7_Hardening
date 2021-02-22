@@ -1,7 +1,7 @@
 ---
 # handlers file for RHEL7-CIS
 
-- name: sysctl flush ipv4 route table
+- name: "sysctl flush ipv4 route table"
   become: yes
   sysctl:
       name: net.ipv4.route.flush
@@ -9,7 +9,7 @@
       sysctl_set: yes
   when: ansible_virtualization_type != "docker"
 
-- name: sysctl flush ipv6 route table
+- name: "sysctl flush ipv6 route table"
   become: yes
   sysctl:
       name: net.ipv6.route.flush
