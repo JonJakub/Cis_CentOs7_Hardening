@@ -401,11 +401,3 @@ rhel7cis_vartmp:
     enabled: no
 
 rhel7cis_rule_5_4_2_min_uid: 1000
-
-- name: "sysctl flush ipv4 route table"
-  become: yes
-  sysctl:
-      name: net.ipv4.route.flush
-      value: 1
-      sysctl_set: yes
-  when: ansible_virtualization_type != "docker"
