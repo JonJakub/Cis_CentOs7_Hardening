@@ -393,7 +393,7 @@
   debug:
     msg:
      "-->  Notimplemented Heslo na bootloaderu neresime, protože secure boot je zajisteni na urovni virtual serveru (RBAC + enkrypce disku)"
-   when:
+  when:
       - rhel7cis_rule_1_4_2|bool
   tags:
     - level1
