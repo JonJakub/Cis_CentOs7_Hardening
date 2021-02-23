@@ -1,2 +1,58 @@
-[ucb-dev-app]
-192.168.18.9
+all:
+  vars:
+    become_user: "root"
+    become: "yes"
+    customer: fincentrum
+    create_administrators_only: False
+    use_iptables: true
+    cloud_provider: o2
+    jenkins: false
+    transaction_analysis: true
+    app_nic: ens160
+    mgmt_nic: ens192
+    trask_networks:
+      - name: trask
+        net: 10.168.27.48/28
+      - name: liberec_test #Liberec
+        net: 10.128.1.0/24
+      - name: liberec2 #Liberec
+        net: 10.128.33.0/24
+    trask_gw: "192.168.31.1"
+    lb_healthcheck_ip: 10.230.75.16/28
+    lb_ip: "10.230.89.163"
+    # customer_tls_gw:
+    #   - ip: "10.230.89.165"
+    #     records:
+    #       - csob-api-kyc.trask.cz
+    #   - ip: "10.230.89.166"
+    #     records:
+    #       - kb-api-kyc.trask.cz
+  children:
+    prod:
+      vars:
+        env: "prod"
+        app_subnet: "192.168.31.64/27"
+      children:
+        app_prod:
+          hosts:
+            fin_prod_app1:
+              ansible_host: 192.168.31.2
+            fin_prod_app2:
+              ansible_host: 192.168.31.3
+        db_prod:
+          hosts:
+            fin_prod_db:
+              ansible_host: 192.168.31.4
+    pilot:
+      vars:
+        env: "pilot"
+        app_subnet: "192.168.31.128/27"
+      children:
+        app_pilot:
+          hosts:
+            fin_pilot_app1:
+              ansible_host: 192.168.31.5
+        db_pilot:
+          hosts:
+            fin_pilot_db:
+              ansible_host: 192.168.31.6

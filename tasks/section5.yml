@@ -99,43 +99,23 @@
       - patch
       - rule_5.1.7
 
-- name: "SCORED | 5.1.8 | PATCH | Ensure at/cron is restricted to authorized users"
+- name: 5.1.8 Ensure cron is restricted to authorized users
   block:
-      - name: "SCORED | 5.1.8 | PATCH | Ensure at/cron is restricted to authorized users"
-        file:
-            dest: /etc/at.deny
-            state: absent
-
-      - name: "SCORED | 5.1.8 | PATCH | Check if at.allow exists"
-        stat:
-            path: "/etc/at.allow"
-        register: p
-
-      - name: "SCORED | 5.1.8 | PATCH | Ensure at/cron is restricted to authorized users"
-        file:
-            dest: /etc/at.allow
-            state: '{{ "file" if  p.stat.exists else "touch" }}'
-            owner: root
-            group: root
-            mode: 0600
-
-      - name: "SCORED | 5.1.8 | PATCH | Ensure at/cron is restricted to authorized users"
-        file:
-            dest: /etc/cron.deny
-            state: absent
-
-      - name: "SCORED | 5.1.8 | PATCH | Check if cron.allow exists"
-        stat:
-            path: "/etc/cron.allow"
-        register: p
-
-      - name: "SCORED | 5.1.8 | PATCH | Ensure at/cron is restricted to authorized users"
-        file:
-            dest: /etc/cron.allow
-            state: '{{ "file" if  p.stat.exists else "touch" }}'
-            owner: root
-            group: root
-            mode: 0600
+    - name: 5.1.8 Ensure cron is restricted to authorized users | /etc/cron.deny
+      file:
+        path: /etc/cron.deny
+        state: absent
+      ignore_errors: yes
+    - stat:
+        path: /etc/cron.allow
+      register: cfile
+    - name: 5.1.8 Ensure cron is restricted to authorized users | /etc/cron.allow
+      file:
+        path: /etc/cron.allow
+        state: "{{ 'file' if cfile.stat.exists else 'touch' }}"
+        owner: root
+        group: root
+        mode: "g-wx,o-rwx"
   when:
       - rhel7cis_rule_5_1_8|bool
   tags:
@@ -143,11 +123,6 @@
       - level2
       - patch
       - rule_5.1.8
-
-- name: "CI | 5.2 | PATCH | Ensure host keys are present."
-  command: /usr/bin/ssh-keygen -A
-  args:
-      creates: /etc/ssh/ssh_host_ed25519_key
 
 - name: "SCORED | 5.2.1 | PATCH | Ensure permissions on /etc/ssh/sshd_config are configured"
   file:
@@ -165,24 +140,6 @@
       - level2
       - patch
       - rule_5.2.1
-
-- name: "SCORED | 5.2.2 | PATCH | Ensure SSH Protocol is set to 2"
-  lineinfile:
-      state: present
-      dest: /etc/ssh/sshd_config
-      regexp: '(?i)^Protocol'
-      line: 'Protocol 2'
-      validate: /usr/sbin/sshd -t -f %s
-  with_items:
-    - { name: restart.sshd }
-  when:
-      - rhel7cis_rule_5_2_2|bool
-
-  tags:
-      - level1
-      - level2
-      - patch
-      - rule_5.2.2
 
 - name: "SCORED | 5.2.5 | PATCH | Ensure SSH MaxAuthTries is set to 4 or less"
   lineinfile:
@@ -286,7 +243,7 @@
       - patch
       - rule_5.2.10
 
-- name: "SCORED | 5.2.11 | PATCH | Ensure only approved ciphers are used"
+- name: "SCORED | 5.2.11 | PATCH | Ensure only strong Ciphers are used"
   lineinfile:
       state: present
       dest: /etc/ssh/sshd_config
@@ -303,7 +260,7 @@
       - patch
       - rule_5.2.11
 
-- name: "SCORED | 5.2.12 | PATCH | Ensure only approved MAC algorithms are used"
+- name: "SCORED | 5.2.12 | PATCH | Ensure only strong MAC algorithms are used"
   lineinfile:
       state: present
       dest: /etc/ssh/sshd_config
@@ -558,7 +515,7 @@
       - rule_5.4.2
 
 
-- name: 5.4.3 Ensure default group for the root account is GID 0
+- name: "5.4.3 | Ensure default group for the root account is GID 0"
   command: usermod -g 0 root
   when:
       - rhel7cis_rule_5_4_3|bool
@@ -568,7 +525,7 @@
 
 
 
-- name: "5.4.4 | Ensure default user shell timeout is 900 seconds or less"
+- name: "5.4.4 | Ensure default user shell timeout is configured"
   block:
     - name: "5.4.4 | Ensure default user shell timeout is 900 seconds or less | /etc/bash.bashrc"
       lineinfile:
@@ -604,7 +561,7 @@
 
 
 
-- name: "5.4.5 Ensure default user umask is 027 or more restrictive"
+- name: "5.4.5 Ensure default user umask is configured"
   block:
    - name: "5.4.5 Ensure default user umask is 027 or more restrictive | /etc/login.defs"
      lineinfile:
