@@ -1,4 +1,4 @@
-- name: "1.1.1.1 | PATCH | Ensure mounting of cramfs filesystems is disabled"
+- name: "1.1.1.1 || Ensure mounting of cramfs filesystems is disabled"
   lineinfile:
       dest: /etc/modprobe.d/CIS.conf
       regexp: "^(#)?install cramfs(\\s|$)"
@@ -13,7 +13,7 @@
 
 
 
-- name: "1.1.1.7 | PATCH | Ensure mounting of udf filesystems is disabled"
+- name: "1.1.1.7 || Ensure mounting of udf filesystems is disabled"
   lineinfile:
       dest: /etc/modprobe.d/CIS.conf
       regexp: "^(#)?install udf(\\s|$)"
@@ -40,9 +40,9 @@
       - level2
       - rule_1.1.2
 
-- name: "1.1.3 | PATCH | Ensure nodev option set on /tmp partition\n
-         1.1.4 | PATCH | Ensure nosuid option set on /tmp partition\n
-         1.1.5 | PATCH | Ensure noexec option set on /tmp partition\n
+- name: "1.1.3 || Ensure nodev option set on /tmp partition\n
+         1.1.4 || Ensure nosuid option set on /tmp partition\n
+         1.1.5 || Ensure noexec option set on /tmp partition\n
          | drop custom tmp.mount"
   copy:
       src: etc/systemd/system/tmp.mount
@@ -62,9 +62,9 @@
       - rule_1.1.4
       - rule_1.1.5
 
-- name: "1.1.8  | PATCH | Ensure nodev option set on /var/tmp partition\n
-         1.1.9  | PATCH | Ensure nosuid option set on /var/tmp partition\n
-         1.1.10 | PATCH | Ensure noexec option set on /var/tmp partition"
+- name: "1.1.8  || Ensure nodev option set on /var/tmp partition\n
+         1.1.9  || Ensure nosuid option set on /var/tmp partition\n
+         1.1.10 || Ensure noexec option set on /var/tmp partition"
   mount:
       name: /var/tmp
       src: "{{ rhel7cis_vartmp['source'] }}"
@@ -82,19 +82,29 @@
       - rule_1.1.9
       - rule_1.1.10
 
-- name: "1.1.14 | PATCH | Ensure nodev option set on /home partition"
-  command: "mount -o remount,nodev /home"
-  when:
-      - rhel7cis_rule_1_1_14|bool
+- name: "1.1.14 || Ensure nodev option set on /home partition"
+  shell: |
+        mount | grep -E '\s/home\s' | grep -v nodev
+  register: mount_nodev
   tags:
       - level1
       - level2
       - rule_1.1.14
 
-- name: "1.1.6 | PATCH | Ensure /dev/shm is configured\n
-         1.1.15 | PATCH | Ensure nodev option set on /dev/shm partition\n
-         1.1.16 | PATCH | Ensure nosuid option set on /dev/shm partition\n
-         1.1.17 | PATCH | Ensure noexec option set on /dev/shm partition"
+- name: "1.1.14 || Ensure nodev option set on /home partition"
+  command: "mount -o remount,nodev /home"
+  when:
+      - rhel7cis_rule_1_1_14|bool
+      - mount_nodev != ""
+  tags:
+      - level1
+      - level2
+      - rule_1.1.14
+
+- name: "1.1.6 || Ensure /dev/shm is configured\n
+         1.1.15 || Ensure nodev option set on /dev/shm partition\n
+         1.1.16 || Ensure nosuid option set on /dev/shm partition\n
+         1.1.17 || Ensure noexec option set on /dev/shm partition"
   mount:
       name: /dev/shm
       src: tmpfs
@@ -111,7 +121,7 @@
       - rule_1.1.16
       - rule_1.1.17
 
-- name: "NOT1.1.18 | PATCH | Ensure nodev option set on removable media partitions"
+- name: "1.1.18 || Ensure nodev option set on removable media partitions"
   #### Notimplemented manual step
   debug:
     msg: "--> Notimplemented manual step"
@@ -122,7 +132,7 @@
       - level1
       - rule_1.1.18
 
-- name: "NOT1.1.19 | PATCH | Ensure nosuid option set on removable media partitions"
+- name: "1.1.19 || Ensure nosuid option set on removable media partitions"
   #### Notimplemented manual step
   debug:
     msg: "--> Notimplemented manual step"
@@ -133,7 +143,7 @@
       - level1
       - rule_1.1.19
 
-- name: "NOT1.1.20 | PATCH | Ensure noexec option set on removable media partitions"
+- name: "1.1.20 || Ensure noexec option set on removable media partitions"
     #### Notimplemented manual step
   debug:
     msg: "--> Notimplemented manual step"
@@ -144,7 +154,7 @@
       - level1
       - rule_1.1.20
 
-- name: "1.1.21 | PATCH | Ensure sticky bit is set on all world-writable directories"
+- name: "1.1.21 || Ensure sticky bit is set on all world-writable directories"
   shell: set -o pipefail && df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | xargs chmod a+t
   changed_when: no
   failed_when: no
@@ -154,7 +164,7 @@
       - level1
       - rule_1.1.21
 
-- name: "1.1.22 | PATCH | Disable Automounting"
+- name: "1.1.22 || Disable Automounting"
   service:
       name: autofs
       enabled: no
@@ -177,7 +187,7 @@
       - rule_1.1.24
 
 
-- name: "NOT1.2.1 | PATCH | Ensure package manager repositories are configured"
+- name: "1.2.1 || Ensure package manager repositories are configured"
   command: yum check-update
   args:
       warn: false
@@ -190,7 +200,7 @@
       - level1
       - rule_1.2.1
 
-- name: "1.2.2 | PATCH | Ensure gpgcheck is globally activated"
+- name: "1.2.2 || Ensure gpgcheck is globally activated"
   replace:
       name: /etc/yum.conf
       regexp: "^gpgcheck=0"
@@ -201,7 +211,7 @@
       - level1
       - rule_1.2.2
 
-- name: "1.2.2 | PATCH | Ensure gpgcheck is globally activated"
+- name: "1.2.2 || Ensure gpgcheck is globally activated"
   find:
       paths: /etc/yum.repos.d
       patterns: "*.repo"
@@ -213,7 +223,7 @@
       - level1
       - rule_1.2.2
 
-- name: "1.2.2 | PATCH | Ensure gpgcheck is globally activated"
+- name: "1.2.2 || Ensure gpgcheck is globally activated"
   replace:
       name: "{{ item.path }}"
       regexp: "^gpgcheck=0"
@@ -226,7 +236,7 @@
       - level1
       - rule_1.2.2
 
-- name: "NOT1.2.3 | AUDIT | Ensure GPG keys are configured"
+- name: "1.2.3 | AUDIT | Ensure GPG keys are configured"
   command: rpm -q gpg-pubkey --qf '%{name}-%{version}-%{release} --> %{summary}\n'
   changed_when: no
   when:
@@ -235,7 +245,7 @@
       - level1
       - rule_1.2.3
 
-- name: "NOT1.2.6 | Ensure sudo is installed"
+- name: "1.2.6 | Ensure sudo is installed"
   yum:
     name: sudo
     state: present
@@ -245,7 +255,7 @@
       - level1
       - rule_1.2.6
 
-- name: "NOT1.2.7 | Ensure sudo commands use pty"
+- name: "1.2.7 | Ensure sudo commands use pty"
   lineinfile:
     dest: /etc/sudoers
     state: present
@@ -258,7 +268,7 @@
       - level1
       - rule_1.2.7
 
-- name: "NOT1.2.8 | Ensure sudo log file exists"
+- name: "1.2.8 | Ensure sudo log file exists"
   lineinfile:
     dest: /etc/sudoers
     state: present
@@ -271,7 +281,7 @@
       - level1
       - rule_1.2.8
 
-- name: "1.3.1 | PATCH | Ensure AIDE is installed"
+- name: "1.3.1 || Ensure AIDE is installed"
   yum:
       name: aide
       state: present
@@ -282,7 +292,7 @@
       - aide
       - rule_1.3.1
 
-- name: "1.3.1 | PATCH | Ensure AIDE is installed"
+- name: "1.3.1 || Ensure AIDE is installed"
   command: /usr/sbin/aide --init -B 'database_out=file:/var/lib/aide/aide.db.gz'
   args:
       creates: /var/lib/aide/aide.db.gz
@@ -299,7 +309,7 @@
       - aide
       - rule_1.3.1
 
-- name: "1.3.2 | PATCH | Ensure filesystem integrity is regularly checked"
+- name: "1.3.2 || Ensure filesystem integrity is regularly checked"
   cron:
       name: Run AIDE integrity check
       cron_file: "{{ rhel7cis_aide_cron['cron_file'] }}"
@@ -317,7 +327,7 @@
       - aide
       - rule_1.3.2
 
-- name: "1.4.1 | PATCH | Ensure permissions on bootloader config are configured"
+- name: "1.4.1 || Ensure permissions on bootloader config are configured"
   stat:
       path: /etc/grub2.cfg
   register: grub_cfg
@@ -328,7 +338,7 @@
       - grub
       - rule_1.4.1
 
-- name: "1.4.1 | PATCH | Ensure permissions on bootloader config are configured"
+- name: "1.4.1 || Ensure permissions on bootloader config are configured"
   file:
       path: "{{ grub_cfg.stat.lnk_source }}"
       owner: root
@@ -355,9 +365,9 @@
 
 
 
-- name: "NOT1.4.3 | PATCH | Ensure authentication required for single user mode"
+- name: "1.4.3 || Ensure authentication required for single user mode"
   block:
-      - name: "NOT1.4.3 | PATCH | Ensure authentication required for single user mode - Emergency"
+      - name: "1.4.3 || Ensure authentication required for single user mode - Emergency"
         lineinfile:
             dest: /usr/lib/systemd/system/emergency.service
             regexp: '/sbin/sulogin'
@@ -370,7 +380,7 @@
             - level2
       
             - rule_1.4.3
-      - name: "NOT1.4.3 | PATCH | Ensure authentication required for single user mode - Rescue"
+      - name: "1.4.3 || Ensure authentication required for single user mode - Rescue"
         lineinfile:
             dest: /usr/lib/systemd/system/rescue.service
             regexp: '/sbin/sulogin'
@@ -384,7 +394,7 @@
       
             - rule_1.4.3
 
-- name: "1.5.1 | PATCH | Ensure core dumps are restricted"
+- name: "1.5.1 || Ensure core dumps are restricted"
   lineinfile:
       state: present
       dest: /etc/security/limits.conf
@@ -397,7 +407,7 @@
       - level1
       - rule_1.5.1
 
-- name: "1.5.1 | PATCH | Ensure core dumps are restricted"
+- name: "1.5.1 || Ensure core dumps are restricted"
   sysctl:
       name: fs.suid_dumpable
       value: '0'
@@ -411,7 +421,7 @@
       - level1
       - rule_1.5.1
 
-- name: "NOT1.5.2 | PATCH | Ensure XD/NX support is enabled"
+- name: "1.5.2 || Ensure XD/NX support is enabled"
   shell: set -o pipefail && dmesg | grep -E "NX|XD" | grep " active"
   changed_when: no
   when:
@@ -420,7 +430,7 @@
       - level1
       - rule_1.5.2
 
-- name: "1.5.3 | PATCH | Ensure address space layout randomization (ASLR) is enabled"
+- name: "1.5.3 || Ensure address space layout randomization (ASLR) is enabled"
   sysctl:
       name: kernel.randomize_va_space
       value: '2'
@@ -434,7 +444,7 @@
       - level1
       - rule_1.5.3
 
-- name: "1.5.4 | PATCH | Ensure prelink is disabled"
+- name: "1.5.4 || Ensure prelink is disabled"
   command: prelink -ua
   when:
       - prelink_installed.rc == 0
@@ -443,7 +453,7 @@
       - level1
       - rule_1.5.4
 
-- name: "1.5.4 | PATCH | Ensure prelink is disabled"
+- name: "1.5.4 || Ensure prelink is disabled"
   yum:
       name: prelink
       state: absent
@@ -453,7 +463,7 @@
       - level1
       - rule_1.5.4
 
-- name: "1.6.2 | PATCH | Ensure SELinux is installed"
+- name: "1.6.2 || Ensure SELinux is installed"
   yum:
       name: libselinux
       state: present
@@ -463,7 +473,7 @@
       - level2
       - rule_1.6.2
 
-- name: "1.6.1.1 | PATCH | Ensure SELinux is not disabled in bootloader configuration"
+- name: "1.6.1.1 || Ensure SELinux is not disabled in bootloader configuration"
   replace:
       dest: /etc/default/grub
       regexp: '(selinux|enforcing)\s*=\s*0\s*'
@@ -477,7 +487,7 @@
       - level2
       - rule_1.6.1.1
 
-- name: "1.6.1.2 | PATCH | Ensure the SELinux mode is enforcing or permissive | enforcing"
+- name: "1.6.1.2 || Ensure the SELinux mode is enforcing or permissive | enforcing"
   selinux:
       conf: /etc/selinux/config
       policy: "{{ rhel7cis_selinux_pol }}"
@@ -490,7 +500,7 @@
       - selinux
       - rule_1.6.1.2
 
-- name: "1.6.1.3 | PATCH | Ensure SELinux policy is configured"
+- name: "1.6.1.3 || Ensure SELinux policy is configured"
   selinux:
       conf: /etc/selinux/config
       policy: "{{ rhel7cis_selinux_pol }}"
@@ -503,7 +513,7 @@
       - selinux
       - rule_1.6.1.3
 
-- name: "1.6.1.4 | PATCH | Ensure SETroubleshoot is not installed"
+- name: "1.6.1.4 || Ensure SETroubleshoot is not installed"
   yum:
       name: setroubleshoot
       state: absent
@@ -514,7 +524,7 @@
       - selinux
       - rule_1.6.1.4
 
-- name: "1.6.1.5 | PATCH | Ensure the MCS Translation Service (mcstrans) is not installed"
+- name: "1.6.1.5 || Ensure the MCS Translation Service (mcstrans) is not installed"
   yum:
       name: mcstrans
       state: absent
@@ -526,7 +536,7 @@
 
 
 
-- name: "1.7.1.1 | PATCH | Ensure message of the day is configured properly"
+- name: "1.7.1.1 || Ensure message of the day is configured properly"
   template:
       src: etc/motd.j2
       dest: /etc/motd
@@ -537,7 +547,7 @@
       - banner
       - rule_1.7.1.1
 
-- name: "NOT1.7.1.2 | PATCH | Ensure local login warning banner is configured properly"
+- name: "NOT1.7.1.2 || Ensure local login warning banner is configured properly"
   template:
       src: etc/issue.j2
       dest: /etc/issue
@@ -547,7 +557,7 @@
       - level1
       - rule_1.7.1.2
 
-- name: "NOT1.7.1.3 | PATCH | Ensure remote login warning banner is configured properly"
+- name: "NOT1.7.1.3 || Ensure remote login warning banner is configured properly"
   template:
       src: etc/issue.net.j2
       dest: /etc/issue.net
@@ -558,7 +568,7 @@
       - banner
       - rule_1.7.1.3
 
-- name: "NOT1.7.1.4 | PATCH | Ensure permissions on /etc/motd are configured"
+- name: "NOT1.7.1.4 || Ensure permissions on /etc/motd are configured"
   file:
       dest: /etc/motd
       state: file
@@ -572,7 +582,7 @@
       - perms
       - rule_1.7.1.4
 
-- name: "1.7.1.5 | PATCH | Ensure permissions on /etc/issue are configured"
+- name: "1.7.1.5 || Ensure permissions on /etc/issue are configured"
   file:
       dest: /etc/issue
       state: file
@@ -586,7 +596,7 @@
       - perms
       - rule_1.7.1.5
 
-- name: "NOT1.7.1.6 | PATCH | Ensure permissions on /etc/issue.net are configured"
+- name: "NOT1.7.1.6 || Ensure permissions on /etc/issue.net are configured"
   file:
       dest: /etc/issue.net
       state: file
@@ -600,7 +610,7 @@
       - perms
       - rule_1.7.1.6
 
-- name: "1.7.2 | PATCH | Ensure GDM is removed or login is configured"
+- name: "1.7.2 || Ensure GDM is removed or login is configured"
   lineinfile:
       dest: "{{ item.file }}"
       regexp: "{{ item.regexp }}"
@@ -624,7 +634,7 @@
       - level1
       - rule_1.7.2
 
-- name: "NOT1.8 | PATCH | Ensure updates, patches, and additional security software are installed"
+- name: "1.8 || Ensure updates, patches, and additional security software are installed"
   yum:
       name: "*"
       state: latest
