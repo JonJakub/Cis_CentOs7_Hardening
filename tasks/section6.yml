@@ -111,20 +111,41 @@
       - rule_6.1.9
 
 - name: " 6.1.10 || Ensure no world writable files exist"
-  command: /bin/true
-  changed_when: no
+block:
+    - name: 6.1.10 Ensure no world writable files exist | find files
+      shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -0002 2> /dev/null && true || true
+      register: output_6_1_10
+    - name: 6.1.10 Ensure no world writable files exist | save output
+      copy:
+        dest: "{{ outputfiles }}/6.1.10"
+        content: "{{ output_6_1_10.stdout_lines }}"
+    - name: 6.1.10 Ensure no world writable files exist | fix permission
+      file:
+        path: "{{ item }}"
+        mode: "o-w"
+      with_items: "{{ output_6_1_10.stdout_lines }}"
   when:
       - rhel7cis_rule_6_1_10|bool
   tags:
-      - level1
-      
+      - level1    
       - patch
       - rule_6.1.10
-      - notimplemented
 
 - name: " 6.1.11 || Ensure no unowned files or directories exist"
-  command: /bin/true
-  changed_when: no
+  block:
+    - name: 6.1.11 Ensure no unowned files or directories exist | Find
+      shell: df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nouser 2> /dev/null && true || true
+      register: output_6_1_11
+    - name: 6.1.11 Ensure no unowned files or directories exist | Save output
+      copy:
+        dest: "{{ outputfiles }}/6.1.11"
+        content: "{{ output_6_1_11.stdout_lines }}"
+    - name: 6.1.11 Ensure no unowned files or directories exist | Fix
+      file:
+        path: "{{ item }}"
+        owner: "{{ withoutOwnerFileDirOwner }}"
+        group: "{{ withoutGroupFilesDirGroup }}"
+      with_items: "{{ output_6_1_11.stdout_lines }}"
   when:
       - rhel7cis_rule_6_1_11|bool
   tags:
@@ -132,11 +153,22 @@
       
       - patch
       - rule_6.1.11
-      - notimplemented
 
 - name: " 6.1.12 || Ensure no ungrouped files or directories exist"
-  command: /bin/true
-  changed_when: no
+  block:
+    - name: 6.1.12 Ensure no ungrouped files or directories exist | Find
+      shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -nogroup 2> /dev/null && true || true
+      register: output_6_1_12
+    - name: 6.1.12 Ensure no ungrouped files or directories exist | Save output
+      copy:
+        dest: "{{ outputfiles }}/6.1.12"
+        content: "{{ output_6_1_12.stdout_lines }}"
+    - name: 6.1.12 Ensure no ungrouped files or directories exist | Fix
+      file:
+        path: "{{ item }}"
+        owner: "{{ withoutOwnerFileDirOwner }}"
+        group: "{{ withoutGroupFilesDirGroup }}"
+      with_items: "{{ output_6_1_12.stdout_lines }}"
   when:
       - rhel7cis_rule_6_1_12|bool
   tags:
@@ -144,31 +176,38 @@
       
       - patch
       - rule_6.1.12
-      - notimplemented
 
 - name: "NOT 6.1.13 || Audit SUID executables"
-  command: /bin/true
-  changed_when: no
+  block:
+    - name: 6.1.13 Audit SUID executables | find
+      shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -4000 2> /dev/null && true || true
+      register: output_6_1_13
+    - name: 6.1.13 Audit SUID executables | save output
+      copy:
+        dest: "{{ outputfiles }}/6.1.13"
+        content: "{{ output_6_1_13.stdout_lines }}"
   when:
       - rhel7cis_rule_6_1_13|bool
   tags:
-      - level1
-      
+      - level1    
       - patch
       - rule_6.1.13
-      - notimplemented
 
-- name: "NOT 6.1.14 || Audit SGID executables"
-  command: /bin/true
-  changed_when: no
+- name: "6.1.14 || Audit SGID executables"
+  block:
+    - name: 6.1.14 Audit SGID executables | find
+      shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -2000 2> /dev/null && true || true
+      register: output_6_1_14
+    - name: 6.1.14 Audit SGID executables | save output
+      copy:
+        dest: "{{ outputfiles }}/6.1.14"
+        content: "{{ output_6_1_14.stdout_lines }}"
   when:
       - rhel7cis_rule_6_1_14|bool
   tags:
-      - level1
-      
+      - level1     
       - patch
       - rule_6.1.14
-      - notimplemented
 
 - name: "6.2.0 | Ensure accounts in /etc/passwd use shadowed passwords"
   shell: |
@@ -221,64 +260,119 @@
       - rule_6.2.5
 
 - name: " 6.2.6 || Ensure root PATH Integrity"
-  command: /bin/true
-  changed_when: no
+  block:
+    - name: 6.2.3 Ensure root PATH Integrity | run
+      script: 6.2.3.sh
+      register: output_6_2_3
+    - name: 6.2.3 Ensure root PATH Integrity | save output
+      copy:
+        dest: "{{ outputfiles }}/6.2.3"
+        content: "{{ output_6_2_3 }}"
   when:
       - rhel7cis_rule_6_2_6|bool
   tags:
-      - level1
-      
+      - level1     
       - patch
       - rule_6.2.6
-      - notimplemented
 
 - name: " 6.2.7 || Ensure all users' home directories exist"
-  command: /bin/true
-  changed_when: no
+  block:
+    - name: 6.2.4 Ensure all users' home directories exist | list
+      shell: |
+        grep -E -v '^(halt|sync|shutdown)' /etc/passwd | awk -F: '($7 != "'"$(which nologin)"'" && $7 != "/bin/false") { print $1 " " $6 }' | while
+        read -r user dir
+        do
+            if [ ! -d "$dir" ]; then
+                echo "${user}"
+            fi
+        done
+      register: output_6_2_4
+    - name: 6.2.4 Ensure all users' home directories exist | save
+      copy:
+        dest: "{{ outputfiles }}/6.2.4"
+        content: "{{ output_6_2_4.stdout_lines }}"
+    - name: 6.2.4 Ensure all users' home directories exist | fix
+      user:
+        name: "{{ item }}"
+        create_home: yes
+      with_items: "{{ output_6_2_4.stdout_lines }}"
+      when: "{{ output_6_2_4.stdout_lines|length > 0 }}"
   when:
       - rhel7cis_rule_6_2_7|bool
   tags:
-      - level1
-      
+      - level1     
       - patch
       - rule_6.2.7
-      - notimplemented
 
 - name: " 6.2.8 || Ensure users' home directories permissions are 750 or more restrictive"
-  command: /bin/true
-  changed_when: no
+  block:
+    - name: 6.2.5 Ensure users home directories permissions are 750 or more restrictive - list
+      script: 6_2_5.sh
+      register: output_6_2_5
+    - name: 6.2.5 Ensure users' home directories permissions are 750 or more restrictive - save
+      copy:
+        dest: "{{ outputfiles }}/6.2.5"
+        content: "{{ output_6_2_5.stdout_lines }}"
+    - name: 6.2.5 Ensure users home directories permissions are 750 or more restrictive - fix
+      file:
+        name: "{{ item }}"
+        mode: "g-w,o-rwx"
+      with_items: "{{ output_6_2_5.stdout_lines }}"
+      when: "{{ output_6_2_5.stdout_lines|length > 0 }}"
   when:
       - rhel7cis_rule_6_2_8|bool
   tags:
-      - level1
-      
+      - level1      
       - patch
       - rule_6.2.8
-      - notimplemented
 
 - name: " 6.2.9 || Ensure users own their home directories"
-  command: /bin/true
-  changed_when: no
+  block:
+    - name: 6.2.9 Ensure users own their home directories | list
+      script: 6_2_9.sh
+      register: output_6_2_9
+    - name: 6.2.9 Ensure users own their home directories | Var
+      set_fact:
+        output_6_2_6_list: "{{ output_6_2_9.stdout_lines | list }}"
+    - name: 6.2.9 Ensure users own their home directories | save output
+      copy:
+        dest: "{{ outputfiles }}/6.2.9"
+        content: "{{ output_6_2_9_list }}"
+    - name: 6.2.9 Ensure users own their home directories | fix
+      file:
+        path: "{{ item.split(',')[0] }}"
+        group: "{{ item.split(',')[1] }}"
+        owner: "{{ item.split(',')[1] }}"
+        recurse: yes
+      with_items: "{{ output_6_2_9_list }}"
   when:
       - rhel7cis_rule_6_2_9|bool
   tags:
-      - level1
-      
+      - level1   
       - patch
       - rule_6.2.9
-      - notimplemented
 
 - name: " 6.2.10 || Ensure users' dot files are not group or world writable"
-  command: /bin/true
-  changed_when: no
+  block:
+    - name: 6.2.10 Ensure users dot files are not group or world writable | list
+      script: 6_2_10.sh
+      register: output_6_2_10
+    - name: 6.2.10 Ensure users' dot files are not group or world writable | save output
+      copy:
+        dest: "{{ outputfiles }}/6.2.10"
+        content: "{{ output_6_2_10.stdout }}"
+    - name: 6.2.10 Ensure users' dot files are not group or world writable | correct file permissions
+      # files with go+w will be touched twice, as they figure twice in the filter result
+      file:
+        path: "{{ item.split()[-1] }}"
+        mode: g-w,o-w
+      with_items: "{{ output_6_2_10.stdout_lines }}"
   when:
       - rhel7cis_rule_6_2_10|bool
   tags:
-      - level1
-      
+      - level1     
       - patch
       - rule_6.2.10
-      - notimplemented
 
 - name: " 6.2.11 || Ensure no users have .forward files"
   file:
@@ -331,52 +425,88 @@
       - rule_6.2.14
 
 - name: " 6.2.15 || Ensure all groups in /etc/passwd exist in /etc/group"
-  command: /bin/true
-  changed_when: no
+  block:
+    - name: 6.2.15 Ensure all groups in /etc/passwd exist in /etc/group | list
+      shell: |
+        for i in $(cut -s -d: -f4 /etc/passwd | sort -u); do
+            grep -q -P "^.*?:[^:]*:$i:" /etc/group
+            if [ $? -ne 0 ]; then
+                echo "Group $i is referenced by /etc/passwd but does not exist in /etc/group"
+            fi
+        done
+      register: output_6_2_15
+    - name: 6.2.15 Ensure all groups in /etc/passwd exist in /etc/group | save output
+      copy:
+        dest: "{{ outputfiles }}/6.2.15"
+        content: "{{ output_6_2_15 }}"
   when:
       - rhel7cis_rule_6_2_15|bool
   tags:
       - level1
-      
       - patch
       - rule_6.2.15
-      - notimplemented
 
 - name: " 6.2.16 || Ensure no duplicate UIDs exist"
-  command: /bin/true
-  changed_when: no
+  block:
+    - name: 6.2.16 Ensure no duplicate UIDs exist | list
+      shell: |
+        cut -f3 -d":" /etc/passwd | sort -n | uniq -c | while read x; do
+            [ -z "$x" ] && break
+            set - $x
+            if [ $1 -gt 1 ]; then
+                users=$(awk -F: '($3 == n) { print $1 }' n=$2 /etc/passwd | xargs)
+                echo "Duplicate UID ($2): $users"
+            fi
+        done
+      register: output_6_2_16
+    - name: 6.2.13 Ensure no duplicate UIDs exist | save output
+      copy:
+        dest: "{{ outputfiles }}/6.2.16"
+        content: "{{ output_6_2_16 }}"
   when:
       - rhel7cis_rule_6_2_16|bool
   tags:
-      - level1
-      
+      - level1     
       - patch
       - rule_6.2.16
-      - notimplemented
 
 - name: " 6.2.17 || Ensure no duplicate GIDs exist"
-  command: /bin/true
-  changed_when: no
+  block:
+    - name: 6.2.17 Ensure no duplicate GIDs exist | list
+      shell: |
+        cut -d: -f3 /etc/group | sort | uniq -d | while read x; do
+            echo "Duplicate GID ($x) in /etc/group"
+        done
+      register: output_6_2_17
+    - name: 6.2.17 Ensure no duplicate GIDs exist | save output
+      copy:
+        dest: "{{ outputfiles }}/6.2.17"
+        content: "{{ output_6_2_17 }}"
   when:
       - rhel7cis_rule_6_2_17|bool
   tags:
       - level1
-      
       - patch
       - rule_6.2.17
-      - notimplemented
 
 - name: " 6.2.18 || Ensure no duplicate user names exist"
-  command: /bin/true
-  changed_when: no
+  block:
+    - name: 6.2.18 Ensure no duplicate user names exist | list
+      shell: |
+        cut -d: -f1 /etc/passwd | sort | uniq -d | while read x; do
+            echo "Duplicate login name ${x} in /etc/passwd"
+        done
+      register: output_6_2_18
+    - name: 6.2.18 Ensure no duplicate user names exist | save output
+      copy:
+        dest: "{{ outputfiles }}/6.2.18"
+        content: "{{ output_6_2_18.stdout_lines }}"
   when:
       - rhel7cis_rule_6_2_18|bool
   tags:
       - level1
-      
       - patch
       - rule_6.2.18
-      - notimplemented
 
 - name: " 6.2.19 || Ensure no duplicate group names exist"
   command: /bin/true
