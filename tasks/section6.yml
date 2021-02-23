@@ -111,7 +111,7 @@
       - rule_6.1.9
 
 - name: " 6.1.10 || Ensure no world writable files exist"
-block:
+  block:
     - name: 6.1.10 Ensure no world writable files exist | find files
       shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -0002 2> /dev/null && true || true
       register: output_6_1_10
