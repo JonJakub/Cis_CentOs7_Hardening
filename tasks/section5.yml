@@ -144,15 +144,11 @@
   block:
     - name: 5.2.2 Ensure permissions on SSH private host key files are configured | find keys
       shell: |
-        find /etc/ssh -xdev -type f -name 'ssh_host_*_key'  && true || true
+        find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chmod u-x,g-wx,o-rwx {} \;
       register: private_keys
     - name: 5.2.2 Ensure permissions on SSH private host key files are configured | fix permissions
-      file:
-        dest: "{{ item }}"
-        state: file
-        owner: root
-        group: root
-        mode: 0600
+      shell: |
+        find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chownroot:ssh_keys {} \;
   when:
       - rhel7cis_rule_5_2_2|bool
   tags:
@@ -163,15 +159,11 @@
   block:
     - name: 5.2.3 Ensure permissions on SSH public host key files are configured | find keys
       shell: |
-        find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' && true || true
+        find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chmod u-x,go-wx {} \;
       register: public_keys
     - name: 5.2.3 Ensure permissions on SSH public host key files are configured | fix permissions
-      file:
-        dest: "{{ item }}"
-        state: file
-        owner: root
-        group: root
-        mode: "go-wx"
+      shell: |
+        find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chown root:root{} \;
   when:
       - rhel7cis_rule_5_2_3|bool
   tags:
