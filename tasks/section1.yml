@@ -83,17 +83,8 @@
       - rule_1.1.10
 
 - name: "1.1.14 || Ensure nodev option set on /home partition"
-  shell: |
-        mount | grep -E '\s/home\s' | grep -v nodev;
-  ignore_errors: yes
-  register: mount_nodev
-  tags:
-      - level1
-      - level2
-      - rule_1.1.14
-
-- name: "1.1.14 || Ensure nodev option set on /home partition"
   command: "mount -o remount,nodev /home"
+  ignore_errors: yes
   when:
       - rhel7cis_rule_1_1_14|bool
   tags:
