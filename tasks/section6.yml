@@ -118,7 +118,7 @@
       register: output_6_1_10
     - name: 6.1.10 Ensure no world writable files exist | fix permission
       file:
-        path: "{{ item }}"
+        path: "{{ item.output_6_1_10 }}"
         mode: "o-w"
       with_items: "{{ output_6_1_10 }}"
   when:
