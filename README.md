@@ -5,6 +5,7 @@ ansible-playbook -i inventories/test.yml playbook.yml --private-key ~/.ssh/id_rs
 
 
 inventories - treba doplnit servery na které je treba to aplikovat
+Momentalne tam je test.yml ve kterem je fincetrum ktere jsem pouzil na zouseni zda se to tam pusti a prode v rezimu --check
 
 
 skipovat se da dle sekci rhel7cis_section1/2/3/4/5/6
