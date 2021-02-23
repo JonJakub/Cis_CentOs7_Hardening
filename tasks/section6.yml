@@ -1,4 +1,4 @@
-- name: "SCORED | 6.1.2 | PATCH | Ensure permissions on /etc/passwd are configured"
+- name: " 6.1.2 || Ensure permissions on /etc/passwd are configured"
   file:
       dest: /etc/passwd
       owner: root
@@ -12,7 +12,7 @@
       - patch
       - rule_6.1.2
 
-- name: "SCORED | 6.1.3 | PATCH | Ensure permissions on /etc/shadow are configured"
+- name: " 6.1.3 || Ensure permissions on /etc/shadow are configured"
   file:
       dest: /etc/shadow
       owner: root
@@ -26,7 +26,7 @@
       - patch
       - rule_6.1.3
 
-- name: "SCORED | 6.1.4 | PATCH | Ensure permissions on /etc/group are configured"
+- name: " 6.1.4 || Ensure permissions on /etc/group are configured"
   file:
       dest: /etc/group
       owner: root
@@ -40,7 +40,7 @@
       - patch
       - rule_6.1.4
 
-- name: "SCORED | 6.1.5 | PATCH | Ensure permissions on /etc/gshadow are configured"
+- name: " 6.1.5 || Ensure permissions on /etc/gshadow are configured"
   file:
       dest: /etc/gshadow
       owner: root
@@ -54,7 +54,7 @@
       - patch
       - rule_6.1.5
 
-- name: "SCORED | 6.1.6 | PATCH | Ensure permissions on /etc/passwd- are configured"
+- name: " 6.1.6 || Ensure permissions on /etc/passwd- are configured"
   file:
       dest: /etc/passwd-
       owner: root
@@ -68,7 +68,7 @@
       - patch
       - rule_6.1.6
 
-- name: "SCORED | 6.1.7 | PATCH | Ensure permissions on /etc/shadow- are configured"
+- name: " 6.1.7 || Ensure permissions on /etc/shadow- are configured"
   file:
       dest: /etc/shadow-
       owner: root
@@ -82,7 +82,7 @@
       - patch
       - rule_6.1.7
 
-- name: "SCORED | 6.1.8 | PATCH | Ensure permissions on /etc/group- are configured"
+- name: " 6.1.8 || Ensure permissions on /etc/group- are configured"
   file:
       dest: /etc/group-
       owner: root
@@ -96,7 +96,7 @@
       - patch
       - rule_6.1.8
 
-- name: "SCORED | 6.1.9 | PATCH | Ensure permissions on /etc/gshadow- are configured"
+- name: " 6.1.9 || Ensure permissions on /etc/gshadow- are configured"
   file:
       dest: /etc/gshadow-
       owner: root
@@ -110,7 +110,7 @@
       - patch
       - rule_6.1.9
 
-- name: "SCORED | 6.1.10 | PATCH | Ensure no world writable files exist"
+- name: " 6.1.10 || Ensure no world writable files exist"
   command: /bin/true
   changed_when: no
   when:
@@ -122,7 +122,7 @@
       - rule_6.1.10
       - notimplemented
 
-- name: "SCORED | 6.1.11 | PATCH | Ensure no unowned files or directories exist"
+- name: " 6.1.11 || Ensure no unowned files or directories exist"
   command: /bin/true
   changed_when: no
   when:
@@ -134,7 +134,7 @@
       - rule_6.1.11
       - notimplemented
 
-- name: "SCORED | 6.1.12 | PATCH | Ensure no ungrouped files or directories exist"
+- name: " 6.1.12 || Ensure no ungrouped files or directories exist"
   command: /bin/true
   changed_when: no
   when:
@@ -146,7 +146,7 @@
       - rule_6.1.12
       - notimplemented
 
-- name: "NOTSCORED | 6.1.13 | PATCH | Audit SUID executables"
+- name: "NOT 6.1.13 || Audit SUID executables"
   command: /bin/true
   changed_when: no
   when:
@@ -158,7 +158,7 @@
       - rule_6.1.13
       - notimplemented
 
-- name: "NOTSCORED | 6.1.14 | PATCH | Audit SGID executables"
+- name: "NOT 6.1.14 || Audit SGID executables"
   command: /bin/true
   changed_when: no
   when:
@@ -192,7 +192,7 @@
 
 
 
-- name: "SCORED | 6.2.1 | PATCH | Ensure /etc/shadow password fields are not empty"
+- name: " 6.2.1 || Ensure /etc/shadow password fields are not empty"
   command: passwd -l {{ item }}
   changed_when: no
   failed_when: no
@@ -206,7 +206,7 @@
       - patch
       - rule_6.2.1
 
-- name: "SCORED | 6.2.5 | PATCH | Ensure root is the only UID 0 account"
+- name: " 6.2.5 || Ensure root is the only UID 0 account"
   command: passwd -l {{ item }}
   changed_when: no
   failed_when: no
@@ -220,7 +220,7 @@
       - patch
       - rule_6.2.5
 
-- name: "SCORED | 6.2.6 | PATCH | Ensure root PATH Integrity"
+- name: " 6.2.6 || Ensure root PATH Integrity"
   command: /bin/true
   changed_when: no
   when:
@@ -232,7 +232,7 @@
       - rule_6.2.6
       - notimplemented
 
-- name: "SCORED | 6.2.7 | PATCH | Ensure all users' home directories exist"
+- name: " 6.2.7 || Ensure all users' home directories exist"
   command: /bin/true
   changed_when: no
   when:
@@ -244,7 +244,7 @@
       - rule_6.2.7
       - notimplemented
 
-- name: "SCORED | 6.2.8 | PATCH | Ensure users' home directories permissions are 750 or more restrictive"
+- name: " 6.2.8 || Ensure users' home directories permissions are 750 or more restrictive"
   command: /bin/true
   changed_when: no
   when:
@@ -256,7 +256,7 @@
       - rule_6.2.8
       - notimplemented
 
-- name: "SCORED | 6.2.9 | PATCH | Ensure users own their home directories"
+- name: " 6.2.9 || Ensure users own their home directories"
   command: /bin/true
   changed_when: no
   when:
@@ -268,7 +268,7 @@
       - rule_6.2.9
       - notimplemented
 
-- name: "SCORED | 6.2.10 | PATCH | Ensure users' dot files are not group or world writable"
+- name: " 6.2.10 || Ensure users' dot files are not group or world writable"
   command: /bin/true
   changed_when: no
   when:
@@ -280,7 +280,7 @@
       - rule_6.2.10
       - notimplemented
 
-- name: "SCORED | 6.2.11 | PATCH | Ensure no users have .forward files"
+- name: " 6.2.11 || Ensure no users have .forward files"
   file:
       state: absent
       dest: "~{{ item }}/.forward"
@@ -293,7 +293,7 @@
       - patch
       - rule_6.2.11
 
-- name: "SCORED | 6.2.12 | PATCH | Ensure no users have .netrc files"
+- name: " 6.2.12 || Ensure no users have .netrc files"
   file:
       state: absent
       dest: "~{{ item }}/.netrc"
@@ -306,7 +306,7 @@
       - patch
       - rule_6.2.12
 
-# - name: "SCORED | 6.2.13 | PATCH | Ensure users' .netrc Files are not group or world accessible"
+# - name: " 6.2.13 || Ensure users' .netrc Files are not group or world accessible"
 #   file:
 #       mode: 0600
 #       dest: "~{{ item }}/.netrc"
@@ -317,7 +317,7 @@
 #       - patch
 #       - rule_6.2.13
 
-- name: "SCORED | 6.2.14 | PATCH | Ensure no users have .rhosts files"
+- name: " 6.2.14 || Ensure no users have .rhosts files"
   file:
       state: absent
       dest: "~{{ item }}/.rhosts"
@@ -330,7 +330,7 @@
       - patch
       - rule_6.2.14
 
-- name: "SCORED | 6.2.15 | PATCH | Ensure all groups in /etc/passwd exist in /etc/group"
+- name: " 6.2.15 || Ensure all groups in /etc/passwd exist in /etc/group"
   command: /bin/true
   changed_when: no
   when:
@@ -342,7 +342,7 @@
       - rule_6.2.15
       - notimplemented
 
-- name: "SCORED | 6.2.16 | PATCH | Ensure no duplicate UIDs exist"
+- name: " 6.2.16 || Ensure no duplicate UIDs exist"
   command: /bin/true
   changed_when: no
   when:
@@ -354,7 +354,7 @@
       - rule_6.2.16
       - notimplemented
 
-- name: "SCORED | 6.2.17 | PATCH | Ensure no duplicate GIDs exist"
+- name: " 6.2.17 || Ensure no duplicate GIDs exist"
   command: /bin/true
   changed_when: no
   when:
@@ -366,7 +366,7 @@
       - rule_6.2.17
       - notimplemented
 
-- name: "SCORED | 6.2.18 | PATCH | Ensure no duplicate user names exist"
+- name: " 6.2.18 || Ensure no duplicate user names exist"
   command: /bin/true
   changed_when: no
   when:
@@ -378,7 +378,7 @@
       - rule_6.2.18
       - notimplemented
 
-- name: "SCORED | 6.2.19 | PATCH | Ensure no duplicate group names exist"
+- name: " 6.2.19 || Ensure no duplicate group names exist"
   command: /bin/true
   changed_when: no
   when:

@@ -1,4 +1,4 @@
-- name: "SCORED | 3.1.1 | PATCH | Ensure IP forwarding is disabled"
+- name: " 3.1.1 | Ensure IP forwarding is disabled"
   command: "sysctl -w net.ipv4.ip_forward=0"
   when:
       - not rhel7cis_is_router
@@ -9,7 +9,7 @@
       - patch
       - rule_3.1.1
 
-- name: "SCORED | 3.1.2 | PATCH | Ensure packet redirect sending is disabled"
+- name: " 3.1.2 | Ensure packet redirect sending is disabled"
   with_items:
       - { name: net.ipv4.conf.all.send_redirects, value: 0 }
       - { name: net.ipv4.conf.default.send_redirects, value: 0 }
@@ -23,7 +23,7 @@
       - patch
       - rule_3.1.2
 
-- name: "SCORED | 3.2.1 | PATCH | Ensure source routed packets are not accepted"
+- name: " 3.2.1 | Ensure source routed packets are not accepted"
   sysctl:
       name: '{{ item.name }}'
       value: '{{ item.value }}'
@@ -42,7 +42,7 @@
       - patch
       - rule_3.2.1
 
-- name: "SCORED | 3.2.2 | PATCH | Ensure ICMP redirects are not accepted"
+- name: " 3.2.2 | Ensure ICMP redirects are not accepted"
   sysctl:
       name: '{{ item.name }}'
       value: '{{ item.value }}'
@@ -62,7 +62,7 @@
       - patch
       - rule_3.2.2
 
-- name: "SCORED | 3.2.3 | PATCH | Ensure secure ICMP redirects are not accepted"
+- name: " 3.2.3 | Ensure secure ICMP redirects are not accepted"
   sysctl:
       name: '{{ item.name }}'
       value: '{{ item.value }}'
@@ -81,7 +81,7 @@
       - patch
       - rule_3.2.3
 
-- name: "SCORED | 3.2.4 | PATCH | Ensure suspicious packets are logged"
+- name: " 3.2.4 | Ensure suspicious packets are logged"
   sysctl:
       name: '{{ item.name }}'
       value: '{{ item.value }}'
@@ -100,7 +100,7 @@
       - patch
       - rule_3.2.4
 
-- name: "SCORED | 3.2.5 | PATCH | Ensure broadcast ICMP requests are ignored"
+- name: " 3.2.5 | Ensure broadcast ICMP requests are ignored"
   sysctl:
       name: net.ipv4.icmp_echo_ignore_broadcasts
       value: '1'
@@ -115,7 +115,7 @@
       - patch
       - rule_3.2.5
 
-- name: "SCORED | 3.2.6 | PATCH | Ensure bogus ICMP responses are ignored"
+- name: " 3.2.6 | Ensure bogus ICMP responses are ignored"
   sysctl:
       name: net.ipv4.icmp_ignore_bogus_error_responses
       value: '1'
@@ -130,7 +130,7 @@
       - patch
       - rule_3.2.6
 
-- name: "SCORED | 3.2.7 | PATCH | Ensure Reverse Path Filtering is enabled"
+- name: " 3.2.7 | Ensure Reverse Path Filtering is enabled"
   sysctl:
       name: '{{ item.name }}'
       value: '{{ item.value }}'
@@ -150,7 +150,7 @@
       - patch
       - rule_3.2.7
 
-- name: "SCORED | 3.2.8 | PATCH | Ensure TCP SYN Cookies is enabled"
+- name: " 3.2.8 | Ensure TCP SYN Cookies is enabled"
   sysctl:
       name: net.ipv4.tcp_syncookies
       value: 1
@@ -166,7 +166,7 @@
       - patch
       - rule_3.2.8
 
-- name: "SCORED | 3.3.1 | PATCH | Ensure IPv6 router advertisements are not accepted"
+- name: " 3.3.1 | Ensure IPv6 router advertisements are not accepted"
   sysctl:
       name: '{{ item.name }}'
       value: '{{ item.value }}'
@@ -186,7 +186,7 @@
       - patch
       - rule_3.3.1
 
-- name: "SCORED | 3.3.2 | PATCH | Ensure IPv6 redirects are not accepted"
+- name: " 3.3.2 | Ensure IPv6 redirects are not accepted"
   sysctl:
       name: '{{ item.name }}'
       value: '{{ item.value }}'
@@ -206,7 +206,7 @@
       - patch
       - rule_3.3.2
 
-- name: "NOTSCORED | 3.3.3 | PATCH | Ensure IPv6 is disabled"
+- name: " 3.3.3 | Ensure IPv6 is disabled"
   lineinfile:
       dest: /etc/default/grub
       regexp: '^(GRUB_CMDLINE_LINUX=.*(?!.*ipv6\.disable=1)\"[^\"]+)(\".*)'
@@ -220,7 +220,7 @@
       - patch
       - rule_3.3.3
 
-- name: "SCORED | 3.4.1 | PATCH | Ensure TCP Wrappers is installed"
+- name: " 3.4.1 | Ensure TCP Wrappers is installed"
   yum:
       name: tcp_wrappers
       state: present
@@ -233,7 +233,7 @@
 
 
 
-- name: "SCORED | 3.5.1.1 | PATCH | Ensure firewalld is installed and started"
+- name: " 3.5.1.1 | Ensure firewalld is installed and started"
 #### NOTIMPLEMENTED
   debug:
     msg:
@@ -245,7 +245,7 @@
       - patch
       - rule_3.5.1.1
 
-- name: "SCORED | 3.5.1.2 | PATCH | Ensure iptables-services package is not installed"
+- name: " 3.5.1.2 | Ensure iptables-services package is not installed"
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
@@ -256,7 +256,7 @@
       - patch
       - rule_3.5.1.2    
 
-- name: "SCORED | 3.6.1 | PATCH | Ensure iptables is installed"
+- name: " 3.6.1 | Ensure iptables is installed"
   #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
@@ -267,7 +267,7 @@
       - patch
       - rule_3.6.1
 
-- name: "SCORED | 3.6.1 | PATCH | Ensure iptables is installed and started"
+- name: " 3.6.1 | Ensure iptables is installed and started"
   #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
@@ -278,7 +278,7 @@
       - patch
       - rule_3.6.1
 
-- name: "SCORED | 3.6.2 | PATCH | Ensure default deny firewall policy"
+- name: " 3.6.2 | Ensure default deny firewall policy"
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
@@ -289,7 +289,7 @@
       - patch
       - rule_3.6.2
 
-- name: "SCORED | 3.6.2 | PATCH | Ensure default deny firewall policy"
+- name: " 3.6.2 | Ensure default deny firewall policy"
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
@@ -300,7 +300,7 @@
       - patch
       - rule_3.6.2
 
-- name: "SCORED | 3.6.2 | PATCH | Ensure default deny firewall policy"
+- name: " 3.6.2 | Ensure default deny firewall policy"
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
@@ -312,7 +312,7 @@
       - rule_3.6.2
       - notimplemented
 
-- name: "SCORED | 3.6.3 | PATCH | Ensure loopback traffic is configured"
+- name: " 3.6.3 | Ensure loopback traffic is configured"
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
@@ -324,7 +324,7 @@
       - rule_3.6.3
       - notimplemented
 
-- name: "NOTSCORED | 3.6.4 | PATCH | Ensure outbound and established connections are configured"
+- name: " 3.6.4 | Ensure outbound and established connections are configured"
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
@@ -336,7 +336,7 @@
       - rule_3.6.4
       - notimplemented
 
-- name: "SCORED | 3.6.5 | PATCH | Ensure firewall rules exist for all open ports"
+- name: " 3.6.5 | Ensure firewall rules exist for all open ports"
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  Notimplemented na azure vm nebudeme pouzivat lokalni FW, rizeni provozu bude reseno pomoci NSG"
@@ -347,7 +347,7 @@
       - patch
       - rule_3.6.5
 
-- name: "NOTSCORED | 3.7 | PATCH | Ensure wireless interfaces are disabled"
+- name: " 3.7 | Ensure wireless interfaces are disabled"
 #### NOTIMPLEMENTED
   debug:
     msg: "-->  VM servery nebudou mit wireless interface"

@@ -1,4 +1,4 @@
-- name: "SCORED | 2.1.7 | PATCH | Ensure xinetd is not installed"
+- name: "| 2.1.7 | Ensure xinetd is not installed"
   yum:
       name: xinetd
       state: absent
@@ -11,7 +11,7 @@
       - scored
       - rule_2.1.7
 
-- name: "NOTSCORED | 2.2.1.1 | PATCH | Ensure time synchronization is in use - service install"
+- name: " 2.2.1.1 | Ensure time synchronization is in use - service install"
   yum:
       name: "{{ rhel7cis_time_synchronization }}"
       state: present
@@ -22,7 +22,7 @@
       - patch
       - rule_2.2.1.1
 
-- name: "NOTSCORED | 2.2.1.1 | PATCH | Ensure time synchronization is in use - service start"
+- name: " 2.2.1.1 | Ensure time synchronization is in use - service start"
   service:
       name: "{{ rhel7cis_time_synchronization }}d"
       state: started
@@ -34,7 +34,7 @@
       - patch
       - rule_2.2.1.1
 
-- name: "SCORED | 2.2.1.2 | PATCH | Ensure ntp is configured | modify /etc/sysconfig/ntpd"   
+- name: "| 2.2.1.2 | Ensure ntp is configured | modify /etc/sysconfig/ntpd"   
   #### Notimplemented default na CentOS Azure image je chronyd
   debug:
     msg: "-->  Notimplemented default na CentOS Azure image je chronyd"
@@ -43,7 +43,7 @@
       - patch
       - rule_2.2.1.2
 
-- name: "SCORED | 2.2.1.2 | PATCH | Ensure ntp is configured | modify /usr/lib/systemd/system/ntpd.service"
+- name: "| 2.2.1.2 | Ensure ntp is configured | modify /usr/lib/systemd/system/ntpd.service"
   #### Notimplemented default na CentOS Azure image je chronyd
   debug:
     msg: "-->  Notimplemented default na CentOS Azure image je chronyd"
@@ -54,7 +54,7 @@
       - patch
       - rule_2.2.1.2
 
-- name: "SCORED | 2.2.1.3 | PATCH | Ensure chrony is configured"
+- name: "| 2.2.1.3 | Ensure chrony is configured"
   template:
       src: chrony.conf.j2
       dest: /etc/chrony.conf
@@ -69,7 +69,7 @@
       - patch
       - rule_2.2.1.3
 
-- name: "SCORED | 2.2.1.3 | PATCH | Ensure chrony is configured | modify /etc/sysconfig/chronyd | 1"
+- name: "| 2.2.1.3 | Ensure chrony is configured | modify /etc/sysconfig/chronyd | 1"
   lineinfile:
       dest: /etc/sysconfig/chronyd
       regexp: "^(#)?OPTIONS"
@@ -84,7 +84,7 @@
       - patch
       - rule_2.2.1.3
 
-- name: "SCORED | 2.2.2 | PATCH | Ensure X11 Server components are not installed"
+- name: "| 2.2.2 | Ensure X11 Server components are not installed"
   yum:
       state: absent
       name:
@@ -100,7 +100,7 @@
       - patch
       - rule_2.2.2
 
-- name: "SCORED | 2.2.3 | PATCH | Ensure Avahi Server is not installed"
+- name: "| 2.2.3 | Ensure Avahi Server is not installed"
   yum:
       name: avahi-daemon
       state: absent
@@ -115,7 +115,7 @@
       - patch
       - rule_2.2.3
 
-- name: "SCORED | 2.2.4 | PATCH | Ensure CUPS is not installed"
+- name: "| 2.2.4 | Ensure CUPS is not installed"
   yum:
       name: cups
       state: absent
@@ -130,7 +130,7 @@
       - patch
       - rule_2.2.4
 
-- name: "SCORED | 2.2.5 | PATCH | Ensure DHCP Server is not installed"
+- name: "| 2.2.5 | Ensure DHCP Server is not installed"
   yum:
       name: dhcpd
       state: absent
@@ -145,7 +145,7 @@
       - patch
       - rule_2.2.5
 
-- name: "SCORED | 2.2.6 | PATCH | Ensure LDAP server is not installed"
+- name: "| 2.2.6 | Ensure LDAP server is not installed"
   yum:
       name: slapd
       state: absent
@@ -160,7 +160,7 @@
       - patch
       - rule_2.2.6
 
-- name: "SCORED | 2.2.7 | PATCH | Ensure nfs-utils is not installed"
+- name: "| 2.2.7 | Ensure nfs-utils is not installed"
   yum:
       name: nfs-utils
       state: absent
@@ -176,7 +176,7 @@
       - patch
       - rule_2.2.7
 
-- name: "SCORED | 2.2.7 | PATCH | Ensure rpcbind is not installed"
+- name: "| 2.2.7 | Ensure rpcbind is not installed"
   yum:
       name: rpcbind
       state: absent
@@ -192,7 +192,7 @@
       - patch
       - rule_2.2.7
 
-- name: "SCORED | 2.2.8 | PATCH | Ensure DNS Server is not installed"
+- name: "| 2.2.8 | Ensure DNS Server is not installed"
   yum:
       name: named
       state: absent
@@ -204,7 +204,7 @@
       - patch
       - rule_2.2.8
 
-- name: "SCORED | 2.2.9 | PATCH | Ensure FTP Server is not installed"
+- name: "| 2.2.9 | Ensure FTP Server is not installed"
   yum:
       name: vsftpd
       state: absent
@@ -216,7 +216,7 @@
       - patch
       - rule_2.2.9
 
-- name: "SCORED | 2.2.10 | PATCH | Ensure HTTP server is not installed"
+- name: "| 2.2.10 | Ensure HTTP server is not installed"
   yum:
       name: httpd
       state: absent
@@ -228,7 +228,7 @@
       - patch
       - rule_2.2.10
 
-- name: "SCORED | 2.2.11 | PATCH | Ensure IMAP and POP3 server is not installed"
+- name: "| 2.2.11 | Ensure IMAP and POP3 server is not installed"
   yum:
       name: dovecot
       state: absent
@@ -240,7 +240,7 @@
       - patch
       - rule_2.2.11
 
-- name: "SCORED | 2.2.12 | PATCH | Ensure Samba is not installed"
+- name: "| 2.2.12 | Ensure Samba is not installed"
   yum:
       name: smb
       state: absent
@@ -252,7 +252,7 @@
       - patch
       - rule_2.2.12
 
-- name: "SCORED | 2.2.13 | PATCH | Ensure HTTP Proxy Server is not installed"
+- name: "| 2.2.13 | Ensure HTTP Proxy Server is not installed"
   yum:
       name: squid
       state: absent
@@ -264,7 +264,7 @@
       - patch
       - rule_2.2.13
 
-- name: "SCORED | 2.2.15 | PATCH | Ensure mail transfer agent is configured for local-only mode"
+- name: "| 2.2.15 | Ensure mail transfer agent is configured for local-only mode"
   lineinfile:
       dest: /etc/postfix/main.cf
       regexp: "^(#)?inet_interfaces"
@@ -277,7 +277,7 @@
       - patch
       - rule_2.2.15
 
-- name: "SCORED | 2.2.16 | PATCH | Ensure NIS Server is not installed"
+- name: "| 2.2.16 | Ensure NIS Server is not installed"
   yum:
       name: ypserv
       state: absent
@@ -290,7 +290,7 @@
       - rule_2.2.16
 
 
-- name: "SCORED | 2.2.18 | PATCH | Ensure telnet server is not installed"
+- name: "| 2.2.18 | Ensure telnet server is not installed"
   yum:
       name: telnet
       state: absent
@@ -303,7 +303,7 @@
       - rule_2.2.18
 
 
-- name: "SCORED | 2.2.20 | PATCH | Ensure rsync service is not installed"
+- name: "| 2.2.20 | Ensure rsync service is not installed"
   yum:
       name: rsyncd
       state: absent
@@ -316,7 +316,7 @@
       - rule_2.2.20
 
 
-- name: "SCORED | 2.3.1 | PATCH | Ensure NIS Client is not installed"
+- name: "| 2.3.1 | Ensure NIS Client is not installed"
   yum:
       name: ypbind
       state: absent
@@ -328,7 +328,7 @@
       - patch
       - rule_2.3.1
 
-- name: "SCORED | 2.3.2 | PATCH | Ensure rsh client is not installed"
+- name: "| 2.3.2 | Ensure rsh client is not installed"
   yum:
       name: rsh
       state: absent
@@ -340,7 +340,7 @@
       - patch
       - rule_2.3.2
 
-- name: "SCORED | 2.3.3 | PATCH | Ensure talk client is not installed"
+- name: "| 2.3.3 | Ensure talk client is not installed"
   yum:
       name: talk
       state: absent
@@ -352,7 +352,7 @@
       - patch
       - rule_2.3.3
 
-- name: "SCORED | 2.3.4 | PATCH | Ensure telnet client is not installed"
+- name: "| 2.3.4 | Ensure telnet client is not installed"
   yum:
       name: telnet
       state: absent
@@ -365,7 +365,7 @@
       - rule_2.3.4
 
 
-- name: 2.4 Ensure nonessential services are removed or masked
+- name: "2.4 Ensure nonessential services are removed or masked"
   #### Notimplemented predem nelze rict, které servisy jsou nonessential
   debug:
     msg: "-->  Notimplemented predem nelze rict, které servisy jsou nonessential"

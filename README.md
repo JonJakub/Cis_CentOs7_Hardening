@@ -13,6 +13,13 @@ plus je treba definovat outputfiles: /root/   - kam se budou audtini ulohy uklad
                          ssh_key_algorithms: example   - sifrovaci algoritmus ktery chceme pouzit
 
 
+Dulezite:
+
+4.2.1.5 Ensure rsyslog is configured to send logs to a remote log host
+
+vars/main.yml:
+remoteSyslog: example  - je treba doplnit
+
 
 
 
