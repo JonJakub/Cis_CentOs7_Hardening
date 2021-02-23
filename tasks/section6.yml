@@ -115,15 +115,11 @@
     - name: 6.1.10 Ensure no world writable files exist | find files
       shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -0002 2> /dev/null && true || true
       register: output_6_1_10
-    - name: 6.1.10 Ensure no world writable files exist | save output
-      copy:
-        dest: "{{ outputfiles }}/6.1.10"
-        content: "{{ output_6_1_10.stdout_lines }}"
     - name: 6.1.10 Ensure no world writable files exist | fix permission
       file:
         path: "{{ item }}"
         mode: "o-w"
-      with_items: "{{ output_6_1_10.stdout_lines }}"
+      with_items: "{{ output_6_1_10 }}"
   when:
       - rhel7cis_rule_6_1_10|bool
   tags:
@@ -136,16 +132,12 @@
     - name: 6.1.11 Ensure no unowned files or directories exist | Find
       shell: df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nouser 2> /dev/null && true || true
       register: output_6_1_11
-    - name: 6.1.11 Ensure no unowned files or directories exist | Save output
-      copy:
-        dest: "{{ outputfiles }}/6.1.11"
-        content: "{{ output_6_1_11.stdout_lines }}"
     - name: 6.1.11 Ensure no unowned files or directories exist | Fix
       file:
         path: "{{ item }}"
         owner: "{{ withoutOwnerFileDirOwner }}"
         group: "{{ withoutGroupFilesDirGroup }}"
-      with_items: "{{ output_6_1_11.stdout_lines }}"
+      with_items: "{{ output_6_1_11 }}"
   when:
       - rhel7cis_rule_6_1_11|bool
   tags:
@@ -159,16 +151,12 @@
     - name: 6.1.12 Ensure no ungrouped files or directories exist | Find
       shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -nogroup 2> /dev/null && true || true
       register: output_6_1_12
-    - name: 6.1.12 Ensure no ungrouped files or directories exist | Save output
-      copy:
-        dest: "{{ outputfiles }}/6.1.12"
-        content: "{{ output_6_1_12.stdout_lines }}"
     - name: 6.1.12 Ensure no ungrouped files or directories exist | Fix
       file:
         path: "{{ item }}"
         owner: "{{ withoutOwnerFileDirOwner }}"
         group: "{{ withoutGroupFilesDirGroup }}"
-      with_items: "{{ output_6_1_12.stdout_lines }}"
+      with_items: "{{ output_6_1_12 }}"
   when:
       - rhel7cis_rule_6_1_12|bool
   tags:
@@ -185,7 +173,7 @@
     - name: 6.1.13 Audit SUID executables | save output
       copy:
         dest: "{{ outputfiles }}/6.1.13"
-        content: "{{ output_6_1_13.stdout_lines }}"
+        content: "{{ output_6_1_13 }}"
   when:
       - rhel7cis_rule_6_1_13|bool
   tags:
@@ -201,7 +189,7 @@
     - name: 6.1.14 Audit SGID executables | save output
       copy:
         dest: "{{ outputfiles }}/6.1.14"
-        content: "{{ output_6_1_14.stdout_lines }}"
+        content: "{{ output_6_1_14 }}"
   when:
       - rhel7cis_rule_6_1_14|bool
   tags:
@@ -235,7 +223,7 @@
   command: passwd -l {{ item }}
   changed_when: no
   failed_when: no
-  with_items: "{{ empty_password_accounts.stdout_lines }}"
+  with_items: "{{ empty_password_accounts }}"
   when:
       - empty_password_accounts.rc
       - rhel7cis_rule_6_2_1|bool
@@ -249,7 +237,7 @@
   command: passwd -l {{ item }}
   changed_when: no
   failed_when: no
-  with_items: "{{ uid_zero_accounts_except_root.stdout_lines }}"
+  with_items: "{{ uid_zero_accounts_except_root }}"
   when:
       - uid_zero_accounts_except_root.rc
       - rhel7cis_rule_6_2_5|bool
@@ -290,13 +278,13 @@
     - name: 6.2.4 Ensure all users' home directories exist | save
       copy:
         dest: "{{ outputfiles }}/6.2.4"
-        content: "{{ output_6_2_4.stdout_lines }}"
+        content: "{{ output_6_2_4 }}"
     - name: 6.2.4 Ensure all users' home directories exist | fix
       user:
         name: "{{ item }}"
         create_home: yes
-      with_items: "{{ output_6_2_4.stdout_lines }}"
-      when: "{{ output_6_2_4.stdout_lines|length > 0 }}"
+      with_items: "{{ output_6_2_4 }}"
+      when: "{{ output_6_2_4|length > 0 }}"
   when:
       - rhel7cis_rule_6_2_7|bool
   tags:
@@ -309,16 +297,12 @@
     - name: 6.2.5 Ensure users home directories permissions are 750 or more restrictive - list
       script: 6_2_5.sh
       register: output_6_2_5
-    - name: 6.2.5 Ensure users' home directories permissions are 750 or more restrictive - save
-      copy:
-        dest: "{{ outputfiles }}/6.2.5"
-        content: "{{ output_6_2_5.stdout_lines }}"
     - name: 6.2.5 Ensure users home directories permissions are 750 or more restrictive - fix
       file:
         name: "{{ item }}"
         mode: "g-w,o-rwx"
-      with_items: "{{ output_6_2_5.stdout_lines }}"
-      when: "{{ output_6_2_5.stdout_lines|length > 0 }}"
+      with_items: "{{ output_6_2_5 }}"
+      when: "{{ output_6_2_5|length > 0 }}"
   when:
       - rhel7cis_rule_6_2_8|bool
   tags:
@@ -333,7 +317,7 @@
       register: output_6_2_9
     - name: 6.2.9 Ensure users own their home directories | Var
       set_fact:
-        output_6_2_6_list: "{{ output_6_2_9.stdout_lines | list }}"
+        output_6_2_6_list: "{{ output_6_2_9 | list }}"
     - name: 6.2.9 Ensure users own their home directories | save output
       copy:
         dest: "{{ outputfiles }}/6.2.9"
@@ -366,7 +350,7 @@
       file:
         path: "{{ item.split()[-1] }}"
         mode: g-w,o-w
-      with_items: "{{ output_6_2_10.stdout_lines }}"
+      with_items: "{{ output_6_2_10 }}"
   when:
       - rhel7cis_rule_6_2_10|bool
   tags:
@@ -500,7 +484,7 @@
     - name: 6.2.18 Ensure no duplicate user names exist | save output
       copy:
         dest: "{{ outputfiles }}/6.2.18"
-        content: "{{ output_6_2_18.stdout_lines }}"
+        content: "{{ output_6_2_18 }}"
   when:
       - rhel7cis_rule_6_2_18|bool
   tags:
