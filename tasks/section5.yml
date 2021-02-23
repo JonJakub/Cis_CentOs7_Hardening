@@ -495,18 +495,18 @@
   block:
     - name: "5.3.2 Ensure lockout for failed password attempts is configured | common-auth"
       lineinfile:
-        dest: /etc/pam.d/common-auth
-        line: "auth required pam_tally2.so onerr=fail audit silent deny=5 unlock_time=900"
+        dest: /etc/pam.d/system-auth
+        line: "auth required pam_faillock.so preauth silent audit deny=5
+               unlock_time=900
+               auth [default=die] pam_faillock.so authfail audit deny=5
+               unlock_time=900"
     - name: 5.3.2 Ensure lockout for failed password attempts is configured | pam_deny.so
       lineinfile:
-        dest: /etc/pam.d/common-account
-        regexp: '^account\srequisite'
-        line: "account requisite pam_deny.so"
-    - name: "5.3.2 Ensure lockout for failed password attempts is configured | pam_tally2.so"
-      lineinfile:
-        dest: /etc/pam.d/common-account
-        regexp: '^account\srequired'
-        line: "account required pam_tally2.so"
+        dest: /etc/pam.d/password-auth
+        line: "auth required pam_faillock.so preauth silent audit deny=5
+               unlock_time=900
+               auth [default=die] pam_faillock.so authfail audit deny=5
+               unlock_time=900"
   when:
       - rhel7cis_rule_5_3_2|bool
   tags:
