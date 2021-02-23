@@ -515,10 +515,22 @@
       - patch
       - rule_5.3.2
 
-- name: " 5.3.3 || Ensure password reuse is limited"
+- name: " 5.3.3 || Ensure password reuse is limited | password-auth"
   lineinfile:
-    dest: /etc/pam.d/common-password
-    line: "password required pam_pwhistory.so remember=5"
+    dest: /etc/pam.d/password-auth
+    line: "password sufficient pam_unix.so sha512"
+  when:
+      - rhel7cis_rule_5_3_3|bool
+  tags:
+      - level1
+      - level2
+      - patch
+      - rule_5.3.3
+
+- name: " 5.3.3 || Ensure password reuse is limited | system-auth"
+  lineinfile:
+    dest: /etc/pam.d/system-auth
+    line: "password sufficient pam_unix.so sha512"
   when:
       - rhel7cis_rule_5_3_3|bool
   tags:
