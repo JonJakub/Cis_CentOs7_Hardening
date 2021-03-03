@@ -265,13 +265,13 @@
 
 - name: " 6.2.6 || Ensure root PATH Integrity"
   block:
-    - name: 6.2.3 Ensure root PATH Integrity | run
-      script: 6.2.3.sh
-      register: output_6_2_3
-    - name: 6.2.3 Ensure root PATH Integrity | save output
+    - name: 6.2.6 Ensure root PATH Integrity | run
+      script: 6.2.6.sh
+      register: output_6_2_6
+    - name: 6.2.6 Ensure root PATH Integrity | save output
       copy:
-        dest: "{{ outputfiles }}/6.2.3"
-        content: "{{ output_6_2_3 }}"
+        dest: "{{ outputfiles }}/6.2.6"
+        content: "{{ output_6_2_6 }}"
   when:
       - rhel7cis_rule_6_2_6|bool
   tags:
@@ -310,15 +310,15 @@
 
 - name: " 6.2.8 || Ensure users' home directories permissions are 750 or more restrictive"
   block:
-    - name: 6.2.5 Ensure users home directories permissions are 750 or more restrictive - list
-      script: 6_2_5.sh
-      register: output_6_2_5
-    - name: 6.2.5 Ensure users home directories permissions are 750 or more restrictive - fix
+    - name: 6.2.8 Ensure users home directories permissions are 750 or more restrictive - list
+      script: 6_2_8.sh
+      register: output_6_2_8
+    - name: 6.2.8 Ensure users home directories permissions are 750 or more restrictive - fix
       file:
         name: "{{ item }}"
         mode: "g-w,o-rwx"
-      with_items: "{{ output_6_2_5 }}"
-      when: "{{ output_6_2_5|length > 0 }}"
+      with_items: "{{ output_6_2_8 }}"
+      when: "{{ output_6_2_8|length > 0 }}"
   when:
       - rhel7cis_rule_6_2_8|bool
   tags:
