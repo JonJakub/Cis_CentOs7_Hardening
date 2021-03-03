@@ -124,7 +124,7 @@
       file:
         path: "{{ item }}"
         mode: "o-w"
-      with_items: "{{ output_6_1_10 }}"
+      with_items: "{{ output_6_1_10.stdout }}"
   when:
       - rhel7cis_rule_6_1_10|bool
   tags:
