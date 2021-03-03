@@ -259,7 +259,7 @@
     - name: 6.2.6 Ensure root PATH Integrity | save output
       copy:
         dest: "{{ outputfiles }}/6.2.6"
-        content: "{{ output_6_2_6 }}"
+        content: "{{ output_6_2_6.stdout }}"
   when:
       - rhel7cis_rule_6_2_6|bool
   tags:
