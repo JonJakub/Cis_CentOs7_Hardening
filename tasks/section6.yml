@@ -137,12 +137,16 @@
     - name: 6.1.11 Ensure no unowned files or directories exist | Find
       shell: df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nouser 2> /dev/null && true || true
       register: output_6_1_11
+    - name: 6.1.11 Ensure no unowned files or directories exist | Save output
+      copy:
+        dest: "{{ outputfiles }}/6.1.11"
+        content: "{{ output_6_1_11.stdout }}"
     - name: 6.1.11 Ensure no unowned files or directories exist | Fix
       file:
         path: "{{ item }}"
         owner: "{{ withoutOwnerFileDirOwner }}"
         group: "{{ withoutGroupFilesDirGroup }}"
-      with_items: "{{ output_6_1_11 }}"
+      with_items: "{{ output_6_1_11.stdout }}"
   when:
       - rhel7cis_rule_6_1_11|bool
   tags:
@@ -156,12 +160,16 @@
     - name: 6.1.12 Ensure no ungrouped files or directories exist | Find
       shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -nogroup 2> /dev/null && true || true
       register: output_6_1_12
+    - name: 6.1.12 Ensure no ungrouped files or directories exist | Save output
+      copy:
+        dest: "{{ outputfiles }}/6.1.11"
+        content: "{{ output_6_1_11.stdout }}"
     - name: 6.1.12 Ensure no ungrouped files or directories exist | Fix
       file:
         path: "{{ item }}"
         owner: "{{ withoutOwnerFileDirOwner }}"
         group: "{{ withoutGroupFilesDirGroup }}"
-      with_items: "{{ output_6_1_12 }}"
+      with_items: "{{ output_6_1_12.stdout }}"
   when:
       - rhel7cis_rule_6_1_12|bool
   tags:
