@@ -334,6 +334,13 @@ rhel7cis_pwquality:
     ocredit: '-1'
     lcredit: '-1'
 
+# Section 6
+withoutOwnerFileDirOwner: root
+withoutGroupFilesDirGroup: root
+disable_autofs: true
+disable_usb: true
+install_apparmor: true
+
 # Syslog system
 rhel7cis_syslog: rsyslog
 
