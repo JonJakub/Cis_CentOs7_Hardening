@@ -172,6 +172,7 @@
         owner: "{{ withoutOwnerFileDirOwner }}"
         group: "{{ withoutGroupFilesDirGroup }}"
       with_items: "{{ output_6_1_12.stdout }}"
+      ignore_errors: yes
   when:
       - rhel7cis_rule_6_1_12|bool
   tags:
