@@ -260,7 +260,7 @@
       copy:
         dest: "{{ outputfiles }}/6.2.6"
         content: "{{ output_6_2_6.stdout }}"
-    ignore_erroes: yes
+      ignore_erroes: yes
   when:
       - rhel7cis_rule_6_2_6|bool
   tags:
