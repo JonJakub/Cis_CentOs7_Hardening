@@ -106,7 +106,7 @@
         path: /etc/cron.deny
         state: absent
       ignore_errors: yes
-    - stat:
+    - stat: 
         path: /etc/cron.allow
       register: cfile
     - name: 5.1.8 Ensure cron is restricted to authorized users | /etc/cron.allow
