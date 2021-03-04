@@ -375,3 +375,5 @@ shell_timeout_sec: 900
 
 remoteSyslog: example
 
+fix_dot_file_permissions: yes
+
