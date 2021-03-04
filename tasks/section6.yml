@@ -338,7 +338,6 @@
     - section6
     - level_1_server
     - level_1_workstation
-    - 6.2.7
     - diy
 
 - name: " 6.2.9 || Ensure no users have .forward files"
