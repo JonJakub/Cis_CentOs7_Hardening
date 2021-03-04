@@ -314,7 +314,6 @@
       with_items: "{{ output_6_2_8 }}"
       when:
         - fix_dot_file_permissions
-        - output_6_2_8.stdout
   tags:
     - section6
     - level_1_server
