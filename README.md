@@ -22,6 +22,8 @@ Dulezite:
 vars/main.yml:
 remoteSyslog: example  - je treba doplnit
 
+rhel7cis_rule_5_2_15 by defaul disabled - variables rhel7cis_sshd needs to be setup
+
 
 
 
