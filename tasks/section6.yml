@@ -322,31 +322,19 @@
     - 6.2.7
     - diy
 
-- name: " 6.2.9 || Ensure users own their home directories"
-  block:
-    - name: 6.2.9 Ensure users own their home directories | list
-      script: 6_2_9.sh
-      register: output_6_2_9
-    - name: 6.2.9 Ensure users own their home directories | Var
-      set_fact:
-        output_6_2_6_list: "{{ output_6_2_9 | list }}"
-    - name: 6.2.9 Ensure users own their home directories | save output
-      copy:
-        dest: "{{ outputfiles }}/6.2.9"
-        content: "{{ output_6_2_9_list }}"
-    - name: 6.2.9 Ensure users own their home directories | fix
-      file:
-        path: "{{ item.split(',')[0] }}"
-        group: "{{ item.split(',')[1] }}"
-        owner: "{{ item.split(',')[1] }}"
-        recurse: yes
-      with_items: "{{ output_6_2_9_list }}"
+- name: " 6.2.9 || Ensure no users have .forward files"
+  file:
+      state: absent
+      dest: "~{{ item }}/.forward"
+  with_items: "{{ users }}"
   when:
       - rhel7cis_rule_6_2_9|bool
   tags:
-      - level1   
+      - level1
       - patch
       - rule_6.2.9
+
+
 
 - name: " 6.2.10 || Ensure users' dot files are not group or world writable"
   block:
