@@ -69,7 +69,6 @@
         masked: no
         state: started
   when:
-      - tmp_mount.stat.exists
       - rhel7cis_rule_1_1_3|bool
       - rhel7cis_rule_1_1_4|bool
       - rhel7cis_rule_1_1_5|bool
