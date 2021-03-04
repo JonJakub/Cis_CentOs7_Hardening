@@ -111,12 +111,11 @@
 
 - name: "1.1.14 || Ensure nodev option set on /home partition"
   command: "mount -o remount,nodev /home"
-  ignore_errors: yes
   when:
       - rhel7cis_rule_1_1_14|bool
+      - tmp_mount.stat.exists
   tags:
       - level1
-      - level2
       - rule_1.1.14
 
 - name: "1.1.6 || Ensure /dev/shm is configured\n
@@ -629,24 +628,10 @@
       - rule_1.7.1.6
 
 - name: "1.7.2 || Ensure GDM is removed or login is configured"
-  lineinfile:
-      dest: "{{ item.file }}"
-      regexp: "{{ item.regexp }}"
-      line: "{{ item.line }}"
-      state: present
-      create: yes
-      owner: root
-      group: root
-      mode: 0644
-  with_items:
-      - { file: '/etc/dconf/profile/gdm', regexp: 'user-db', line: 'user-db:user' }
-      - { file: '/etc/dconf/profile/gdm', regexp: 'system-db', line: 'system-db:gdm' }
-      - { file: '/etc/dconf/profile/gdm', regexp: 'file-db', line: 'file-db:/usr/share/gdm/greeter-dconf-defaults' }
-      - { file: '/etc/dconf/db/gdm.d/01-banner-message', regexp: '\[org\/gnome\/login-screen\]', line: '[org/gnome/login-screen]' }
-      - { file: '/etc/dconf/db/gdm.d/01-banner-message', regexp: 'banner-message-enable', line: 'banner-message-enable=true' }
-      - { file: '/etc/dconf/db/gdm.d/01-banner-message', regexp: 'banner-message-text', line: "banner-message-text='{{ rhel7cis_warning_banner }}' " }
+  yum:
+      name: gmd
+      state: absent
   when:
-      - rhel7cis_gui|bool
       - rhel7cis_rule_1_7_2|bool
   tags:
       - level1
