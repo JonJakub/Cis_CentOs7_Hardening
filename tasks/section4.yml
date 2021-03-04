@@ -1,4 +1,4 @@
-- name: " 4.2.3 || Ensure rsyslog"
+- name: " 4.2.3 || Ensure rsyslog is installed"
   yum:
       name: "{{ rhel7cis_syslog }}"
       state: present
