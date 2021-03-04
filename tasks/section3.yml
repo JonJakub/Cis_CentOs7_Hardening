@@ -337,11 +337,9 @@
 - name: " 3.7 | Ensure wireless interfaces are disabled"
 #### NOTIMPLEMENTED
   debug:
-    msg: "-->  VM servery nebudou mit wireless interface"
+    msg: "--> Notimplemented VM servery nebudou mit wireless interface"
   when:
       - rhel7cis_rule_3_7|bool
   tags:
       - level1
-      - level2
-      - patch
       - rule_3.7
