@@ -270,7 +270,7 @@
 
 - name: " 6.2.7 || Ensure all users' home directories exist"
   block:
-    - name: 6.2.4 Ensure all users' home directories exist | list
+    - name: 6.2.7 Ensure all users' home directories exist | list
       shell: |
         grep -E -v '^(halt|sync|shutdown)' /etc/passwd | awk -F: '($7 != "'"$(which nologin)"'" && $7 != "/bin/false") { print $1 " " $6 }' | while
         read -r user dir
@@ -279,17 +279,17 @@
                 echo "${user}"
             fi
         done
-      register: output_6_2_4
-    - name: 6.2.4 Ensure all users' home directories exist | save
+      register: output_6_2_7
+    - name: 6.2.7 Ensure all users' home directories exist | save
       copy:
-        dest: "{{ outputfiles }}/6.2.4"
-        content: "{{ output_6_2_4 }}"
-    - name: 6.2.4 Ensure all users' home directories exist | fix
+        dest: "{{ outputfiles }}/6.2.7"
+        content: "{{ output_6_2_7 }}"
+    - name: 6.2.7 Ensure all users' home directories exist | fix
       user:
         name: "{{ item }}"
         create_home: yes
-      with_items: "{{ output_6_2_4 }}"
-      when: "{{ output_6_2_4|length > 0 }}"
+      with_items: "{{ output_6_2_7 }}"
+      when: "{{ output_6_2_7|length > 0 }}"
   when:
       - rhel7cis_rule_6_2_7|bool
   tags:
