@@ -311,7 +311,7 @@
       file:
         path: "{{ item.split()[-1] }}"
         mode: g-w,o-w
-      with_items: "{{ output_6_2_8 }}"
+      with_items: "{{ output_6_2_8.stdout_lines }}"
       when:
         - fix_dot_file_permissions
       ignore_errors: yes
