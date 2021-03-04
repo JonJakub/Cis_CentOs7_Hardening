@@ -374,7 +374,11 @@ hellman-group-exchange-sha256"
 
 shell_timeout_sec: 900
 
-remoteSyslog: example
+remoteSyslog:
+  enable: false
+  host: example_host
+  port: example_port
+  protocol: tcp
 
 fix_dot_file_permissions: yes
 
