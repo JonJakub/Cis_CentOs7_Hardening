@@ -3,7 +3,6 @@
       name: xinetd
       state: absent
   when:
-      - xinetd_service_status.stdout == "loaded"
       - rhel7cis_rule_2_1_7|bool
   tags:
       - level1
@@ -38,17 +37,6 @@
   #### Notimplemented default na CentOS Azure image je chronyd
   debug:
     msg: "-->  Notimplemented default na CentOS Azure image je chronyd"
-  tags:
-      - level1
-      - patch
-      - rule_2.2.1.2
-
-- name: "| 2.2.1.2 | Ensure ntp is configured | modify /usr/lib/systemd/system/ntpd.service"
-  #### Notimplemented default na CentOS Azure image je chronyd
-  debug:
-    msg: "-->  Notimplemented default na CentOS Azure image je chronyd"
-  when:
-      - rhel7cis_rule_2_2_1_2|bool
   tags:
       - level1
       - patch
@@ -370,7 +358,6 @@
   debug:
     msg: "-->  Notimplemented predem nelze rict, které servisy jsou nonessential"
   when:
-      - not rhel7cis_telnet_required
       - rhel7cis_rule_2_4|bool
   tags:
       - level1
