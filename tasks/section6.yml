@@ -112,6 +112,8 @@
   shell: |
     df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -0002;
   register: output_6_1_10
+  debug:
+    var: output_6_1_10 
   when:
       - rhel7cis_rule_6_1_10|bool
   tags:
