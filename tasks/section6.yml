@@ -245,9 +245,10 @@
       - rhel7cis_rule_6_2_1|bool
   tags:
       - level1
-      
-      - patch
       - rule_6.2.1
+
+- debug:
+    var: empty_password_accounts 
 
 - name: " 6.2.5 || Ensure root is the only UID 0 account"
   command: passwd -l {{ item }}
