@@ -356,7 +356,7 @@ rhel7cis_vartmp:
 rhel7cis_rule_5_4_2_min_uid: 1000
 
 # auditni tasky zapisuji utpout do filu
-outputfiles: /root/outputs
+outputfiles: /root
 
 ssh_key_algorithms: "curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256"
 
