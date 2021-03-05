@@ -584,7 +584,7 @@
     - name: "5.4.4 | Ensure default user shell timeout is 900 seconds or less | /etc/bash.bashrc"
       lineinfile:
         state: present
-        dest: /etc/bash.bashrc
+        dest: /etc/bashrc
         create: true
         regexp: "^TMOUT="
         line: "TMOUT={{ shell_timeout_sec }} ; readonly TMOUT ; export TMOUT"
