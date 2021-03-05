@@ -117,7 +117,7 @@
     - name: 6.1.10 Ensure no world writable files exist | fix permission
       shell: |
         chmod o-w {{ item }}
-      with_items: "{{ output_6_1_10.stdout_lines }}"
+      with_items: "{{ output_6_1_10}}"
       ignore_errors: yes
   when:
       - rhel7cis_rule_6_1_10|bool
