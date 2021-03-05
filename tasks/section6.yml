@@ -122,8 +122,6 @@
   shell: |
     chmod o-w {{ item }}
   with_items: "{{ output_6_1_10}}"
-  debug:
-    var: output_6_1_10 
   ignore_errors: yes
   when:
       - rhel7cis_rule_6_1_10|bool
