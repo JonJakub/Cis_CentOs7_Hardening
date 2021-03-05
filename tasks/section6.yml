@@ -260,9 +260,10 @@
       - rhel7cis_rule_6_2_5|bool
   tags:
       - level1
-      
-      - patch
       - rule_6.2.5
+
+- debug:
+    var: uid_zero_accounts_except_root 
 
 - name: " 6.2.6 || Ensure root PATH Integrity"
   block:
@@ -310,48 +311,47 @@
       - patch
       - rule_6.2.7
 
-- name: 6.2.8 Ensure users dot files are not group or world writable
-  block:
-    - name: 6.2.8 Ensure users dot files are not group or world writable | list
-      shell: |
-        grep -E -v '^(halt|sync|shutdown)' /etc/passwd | awk -F: '($7 != "'"$(which nologin)"'" && $7 != "/bin/false") { print $1 " " $6 }' | while
-        read user dir 
-        do
-          if [ ! -d "$dir" ]; then
-            echo "The home directory ($dir) of user $user does not exist."
-          else
-            for file in $dir/.[A-Za-z0-9]*; do
-              if [ ! -h "$file" -a -f "$file" ]; then
-                fileperm=$(ls -ld $file | cut -f1 -d" ")
-                if [ $(echo $fileperm | cut -c6) != "-" ]; then
-                  echo "Group Write permission set on file $file"
-                fi
-                if [ $(echo $fileperm | cut -c9) != "-" ]; then
-                  echo "Other Write permission set on file $file"
-                fi
-              fi
-            done
+- name: 6.2.8 Ensure users dot files are not group or world writable | list
+  shell: |
+    grep -E -v '^(halt|sync|shutdown)' /etc/passwd | awk -F: '($7 != "'"$(which nologin)"'" && $7 != "/bin/false") { print $1 " " $6 }' | while
+    read user dir 
+          do
+      if [ ! -d "$dir" ]; then
+        echo "The home directory ($dir) of user $user does not exist."
+      else
+        for file in $dir/.[A-Za-z0-9]*; do
+          if [ ! -h "$file" -a -f "$file" ]; then
+            fileperm=$(ls -ld $file | cut -f1 -d" ")
+            if [ $(echo $fileperm | cut -c6) != "-" ]; then
+              echo "Group Write permission set on file $file"
+            fi
+            if [ $(echo $fileperm | cut -c9) != "-" ]; then
+              echo "Other Write permission set on file $file"
+            fi
           fi
         done
-      register: output_6_2_8
-    - name: 6.2.8 Ensure users' dot files are not group or world writable | save output
-      copy:
-        dest: "{{ outputfiles }}/6.2.8"
-        content: "{{ output_6_2_8 }}"
-    - name: 6.2.8 Ensure users' dot files are not group or world writable | correct file permissions
+      fi
+    done
+  register: output_6_2_8
+  when:
+      -  rhel7cis_rule_6_2_8|bool
+
+- debug:
+    var: output_6_2_8
+
+  
+- name: 6.2.8 Ensure users' dot files are not group or world writable | correct file permissions
       # files with go+w will be touched twice, as they figure twice in the filter result
-      file:
-        path: "{{ item.split()[-1] }}"
-        mode: g-w,o-w
-      with_items: "{{ output_6_2_8 }}"
-      when:
-        - fix_dot_file_permissions
-      ignore_errors: yes
+  file:
+    path: "{{ item.split()[-1] }}"
+    mode: g-w,o-w
+  with_items: "{{ output_6_2_8.stdout_lines }}"
+  ignore_errors: yes
+  when:
+      -  rhel7cis_rule_6_2_8|bool  
   tags:
     - section6
-    - level_1_server
-    - level_1_workstation
-    - diy
+    - level_1
 
 - name: " 6.2.9 || Ensure no users have .forward files"
   file:
