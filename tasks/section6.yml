@@ -379,16 +379,16 @@
 
 
 
-# - name: " 6.2.13 || Ensure users' .netrc Files are not group or world accessible"
-#   file:
-#       mode: 0600
-#       dest: "~{{ item }}/.netrc"
-#   with_items: "{{ users.stdout_lines }}"
-#   tags:
-#       - level1
-#       
-#       - patch
-#       - rule_6.2.13
+ - name: " 6.2.13 || Ensure users' .netrc Files are not group or world accessible"
+   file:
+       mode: 0600
+       dest: "~{{ item }}/.netrc"
+   with_items: "{{ users.stdout_lines }}"
+  when:
+      - rhel7cis_rule_6_2_13|bool
+   tags:
+       - level1
+       - rule_6.2.13
 
 - name: " 6.2.14 || Ensure no users have .rhosts files"
   file:
