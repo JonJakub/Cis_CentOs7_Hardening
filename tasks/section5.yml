@@ -758,6 +758,7 @@
     groupadd sugroup
   when:
       - rhel7cis_rule_5_6|bool
+      - 'sugroup' not in groups
   tags:
       - level1
       - rule_5.6
