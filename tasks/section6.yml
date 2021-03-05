@@ -167,7 +167,6 @@
 
 - debug: 
     var: output_6_1_11
-    msg: "6.1.12 Ensure no ungrouped files or directories exist"
 
 - name: 6.1.12 Ensure no ungrouped files or directories exist | Fix
   file:
