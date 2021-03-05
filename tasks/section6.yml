@@ -156,24 +156,29 @@
       - level1
       - rule_6.1.11
 
-- name: " 6.1.12 || Ensure no ungrouped files or directories exist"
-  block:
-    - name: 6.1.12 Ensure no ungrouped files or directories exist | Find
-      shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -nogroup 2> /dev/null && true || true
-      register: output_6_1_12
-    - name: 6.1.12 Ensure no ungrouped files or directories exist | Fix
-      file:
-        path: "{{ item }}"
-        owner: "{{ withoutOwnerFileDirOwner }}"
-        group: "{{ withoutGroupFilesDirGroup }}"
-      with_items: "{{ output_6_1_12.stdout }}"
-      ignore_errors: yes
+- name: 6.1.12 Ensure no ungrouped files or directories exist | Find
+  shell: df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -nogroup 2> /dev/null && true || true
+  register: output_6_1_12
   when:
       - rhel7cis_rule_6_1_12|bool
   tags:
       - level1
-      
-      - patch
+      - rule_6.1.12
+
+- debug: 6.1.12 Ensure no ungrouped files or directories exist
+    var: output_6_1_11
+
+- name: 6.1.12 Ensure no ungrouped files or directories exist | Fix
+  file:
+    path: "{{ item }}"
+    owner: "{{ withoutOwnerFileDirOwner }}"
+    group: "{{ withoutGroupFilesDirGroup }}"
+    with_items: "{{ output_6_1_12.stdout }}"
+    ignore_errors: yes
+  when:
+      - rhel7cis_rule_6_1_12|bool
+  tags:
+      - level1
       - rule_6.1.12
 
 - name: "NOT 6.1.13 || Audit SUID executables"
