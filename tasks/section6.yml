@@ -115,9 +115,8 @@
         df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type f -perm -0002;
       register: output_6_1_10
     - name: 6.1.10 Ensure no world writable files exist | fix permission
-      file:
-        path: "{{ item }}"
-        mode: "o-w"
+      shell: |
+        chmod o-w {{ item }}
       with_items: "{{ output_6_1_10.stdout_lines }}"
       ignore_errors: yes
   when:
