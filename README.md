@@ -9,18 +9,17 @@ Momentalne tam je test.yml ve kterem je fincetrum ktere jsem pouzil na zouseni z
 
 
 skipovat se da dle sekci rhel7cis_section1/2/3/4/5/6
-
-task/vars/main.yml jsou promene pro vsechny tasky zde se da podrobne ovladat co se pousti a co ne.
-plus je treba definovat outputfiles: /root/   - kam se budou audtini ulohy ukladat
                          
 
 
 Variables k doplneni
 
-vars/main.yml:
+task/vars/main.yml:
+
 remoteSyslog  - je treba doplnit
-rhel7cis_rule_5_2_15 by defaul disabled - variables rhel7cis_sshd needs to be setup
+rhel7cis_rule_5_2_15 by defaul disabled - treba nastavit rhel7cis_sshd nez se toto bude posutet
 ssh_key_algorithms: example   - sifrovaci algoritmus ktery chceme pouzit
+outputfiles - vystup z auditnich tasku
 
 
 
