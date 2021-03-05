@@ -317,7 +317,7 @@
     read user dir 
           do
       if [ ! -d "$dir" ]; then
-        echo "The home directory ($dir) of user $user does not exist."
+        echo "$dir"
       else
         for file in $dir/.[A-Za-z0-9]*; do
           if [ ! -h "$file" -a -f "$file" ]; then
