@@ -173,8 +173,8 @@
     path: "{{ item }}"
     owner: "{{ withoutOwnerFileDirOwner }}"
     group: "{{ withoutGroupFilesDirGroup }}"
-    with_items: "{{ output_6_1_12.stdout_lines }}"
-    ignore_errors: yes
+  with_items: "{{ output_6_1_12.stdout_lines }}"
+  ignore_errors: yes
   when:
       - rhel7cis_rule_6_1_12|bool
   tags:
